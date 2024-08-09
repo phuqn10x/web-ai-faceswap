@@ -17,7 +17,7 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
-    "react/prop-types": "off", // Tắt cảnh báo về prop-types
+    // "react/prop-types": "off", // Tắt cảnh báo về prop-types
   },
 };
 // 'react/require-default-props': 'off', // Tắt cảnh báo về default props
