@@ -8,12 +8,14 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 
 export default function PopOverMain({
   title,
   children,
   widthContent,
   leftIcon,
+  to
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
@@ -22,18 +24,23 @@ export default function PopOverMain({
       alignItems={"center"}
       direction={"row"}
       spacing={4}
-      borderBottom="2px solid transparent"
-      transition="border-bottom-color 0.6s ease-in-out" // Apply transition globally
+      boxShadow="0 4px 0 transparent"
+      transition="box-shadow 0.6s ease-in-out" // Apply transition globally
       _hover={{
-        // borderBottom=  "1px solid 438FF9"
-        borderBottomColor: "#438FF9",
+        boxShadow: "0 4px 0 #438FF9",
       }}
     >
-      <Box h={"full"} onMouseEnter={onOpen} onMouseLeave={onClose}>
+      <Box
+        h={"full"}
+        as={!children ? Link : ""}
+        to={to}
+        onMouseEnter={onOpen}
+        onMouseLeave={onClose}
+      >
         <Popover
           h={"full"}
           trigger={"hover"}
-          gutter={3}
+          gutter={6}
           direction="rtl"
           placement={"bottom-start"}
         >
@@ -49,15 +56,17 @@ export default function PopOverMain({
               _hover={{
                 bg: "none",
               }}
-              fontSize={"sm"}
+              // fontSize={"sm"}
               fontWeight={600}
             >
               {title}
-              <ChevronDownIcon
-                ml={2}
-                transition="transform 0.3s ease"
-                transform={isOpen ? "rotate(180deg)" : "rotate(0deg)"}
-              />
+              {children && (
+                <ChevronDownIcon
+                  ml={2}
+                  transition="transform 0.3s ease"
+                  transform={isOpen ? "rotate(180deg)" : "rotate(0deg)"}
+                />
+              )}
             </Button>
             {/* </Box> */}
           </PopoverTrigger>
@@ -68,6 +77,7 @@ export default function PopOverMain({
             // bg={popoverContentBgColor}
             // p={4}
             // transform="scale(1)"
+           
             w={"full" ?? widthContent}
             rounded={"unset"}
             //   minW={"400px"}

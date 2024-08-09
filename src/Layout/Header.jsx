@@ -16,6 +16,8 @@ import {
   HStack,
   Image,
   Divider,
+  keyframes,
+  Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 // import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
@@ -30,9 +32,12 @@ import { ChevronRightIcon, CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 
 import PopOverMain from "../ui/Popover";
 
-import apiIcon from "../assets/icons/api-icon.svg";
+import downloadIcon from "../assets/icons/download.svg";
+import ButtonMain from "../components/Buttons/ButtonMain";
+import { ai_items } from "../data";
+import { motion } from "framer-motion";
 
-export default function Header({ advanced }) {
+export default function Header() {
   const { isOpen, onToggle } = useDisclosure();
   //   const user = useSelector(selectData);
   //   const { t } = useT("header");
@@ -41,20 +46,20 @@ export default function Header({ advanced }) {
   //     dispatch(Logout());
   //   };
   return (
-    <Box pt={{ base: 0, md: advanced ? 0 : 8 }}>
+    <Box pt={{ base: 0, md: 0 }}>
       <Flex
         align="center"
         justify="space-between"
         // wrap="wrap"
 
-        px={{ base: 10, md: 10 }}
+        px={{ base: 10, md: 20 }}
         bg={useColorModeValue("white", "gray.700")}
         color={useColorModeValue("black", "white")}
         boxShadow={"lg"}
         rounded={"lg"}
         // maxW="1600px" // Giới hạn chiều rộng của thanh điều hướng
         h="100px"
-        mx={{ base: 0, md: 0, lg: 0, xl: advanced ? 0 : "8%" }} // Căn giữa thanh điều hướng
+        mx={{ base: 0, md: 0, lg: 0, xl: 0 }} // Căn giữa thanh điều hướng
 
         // {...props}
       >
@@ -72,32 +77,51 @@ export default function Header({ advanced }) {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <IconButton
-            // flex={1}
-            display={"flex"}
-            // w={"20%"}
-            _hover={{ bg: "none" }}
-            icon={
-              <Image src={"/logo_text_full.png"} w="200px" alt="send icon" />
-            }
-            variant={"ghost"}
-            as={Link}
-            to="/"
-            aria-label={"Toggle Navigation"}
-          />
-        </Flex>
+
         <Stack
           whiteSpace="nowrap"
           display={{ base: "none", md: "flex" }}
           flex={{ base: 1, md: 1 }}
-          justify={"flex-end"}
+          justifyContent={"space-between"}
           direction={"row"}
           h={"full"}
           spacing={6}
           alignItems={"center"}
         >
-          {!advanced && <DesktopNav />}
+          <HStack h={"full"} justify={{ base: "center", md: "start" }} gap={10}>
+            <IconButton
+              // flex={1}
+              display={"flex"}
+              // w={"20%"}
+              _hover={{ bg: "none" }}
+              icon={<Image src={"/logo_text_full.png"} w="200px" alt="Logo" />}
+              variant={"ghost"}
+              as={Link}
+              to="/"
+            />
+            <DesktopNav />
+          </HStack>
+
+          <HStack h={"full"}>
+            <Flex h={"full"} alignItems="center">
+              <ButtonMain
+                // w={"full"}
+                fontSize={"18px"}
+                props={{
+                  px: "28px",
+                  lineHeight: "3.25rem",
+                  as: Link,
+                  to: "/signup",
+                }}
+                propsButton={{
+                  gap: 0,
+                  // rightIcon: <ChevronRightIcon />,
+                }}
+                // fontWeight={500}
+                title={"Try for free"}
+              />
+            </Flex>
+          </HStack>
         </Stack>
       </Flex>
 
@@ -117,78 +141,106 @@ const DesktopNav = () => {
   // console.log("listToolAi", listToolAi);
 
   return (
-    <>
-      <Flex h={"full"}>
-        <PopOverMain widthContent="100px" title={"tesst"}></PopOverMain>
-      </Flex>
-      <Flex h={"full"} display={{ base: "none", md: "flex" }}>
-        {/* <PopOverMain title={t("ai_tools.title")}> */}
-        {/* {Object.keys(listToolAi).map((service, index) => (
-            // console.log("listToolAi",listToolAi),
-            // <p>"test</p>
-
-            <DesktopSubNav
-              aiItems
-              key={index}
-              service={service}
-              object={listToolAi}
-            />
-          ))} */}
-        {/* </PopOverMain> */}
-      </Flex>
-      <Flex h={"full"} display={{ base: "none", md: "flex" }}>
-        <PopOverMain
-          title={"test"}
-          leftIcon={<Image src={apiIcon} boxSize="40px" alt="send icon" />}
-        >
-          {/* {Object.keys(listToolAi).map((service, index) => (
-            // console.log("listToolAi",listToolAi),
-            // <p>"test</p>
-            <DesktopSubNav
-              forDev
-              key={index}
-              service={service}
-              object={listToolAi}
-            />
-          ))} */}
-          <DesktopSubNav />
-        </PopOverMain>
-      </Flex>
-    </>
+    <HStack h={"full"} display={{ base: "none", md: "flex" }} gap={6}>
+      <PopOverMain title={"AI product"}>
+        {ai_items.map((data, index) => (
+          <DesktopSubNav key={index} data={data} />
+        ))}
+      </PopOverMain>
+      <PopOverMain title={"Pricing"} to={"/test"}></PopOverMain>
+      <PopOverMain
+        title={"Download App"}
+        to={"/test"}
+        leftIcon={<Image src={downloadIcon} boxSize="23px" alt="send icon" />}
+      ></PopOverMain>
+    </HStack>
   );
 };
 
-const DesktopSubNav = () => {
-  // console.log("object", object);
-  //   const MotionIcon = motion(Icon);
-  //   const fireAnimation = keyframes`
-  //     0% {
-  //       transform: rotate(-8deg);
-  //       transform-origin: center bottom;
-  //     }
-  //     50% {
-  //       transform: rotate(8deg);
-  //       transform-origin: center bottom;
-  //     }
-  //     100% {
-  //       transform: rotate(-8deg);
-  //       transform-origin: center bottom;
-  //     }
-  //   `;
+const DesktopSubNav = ({ data }) => {
+  console.log("object", data);
+  const MotionIcon = motion(Icon);
+  const MotionBox = motion(Box);
+  const fireAnimation = keyframes`
+      0% {
+        transform: rotate(-8deg);
+        transform-origin: center bottom;
+      }
+      50% {
+        transform: rotate(8deg);
+        transform-origin: center bottom;
+      }
+      100% {
+        transform: rotate(-8deg);
+        transform-origin: center bottom;
+      }
+    `;
   return (
     <>
-      <Box
+      <MotionBox
         as={Link}
-        to={"/test"}
-        // role={"group"}
-        // display={"block"}
+        to={data.link}
         px={6}
         py={4}
-        // rounded={0}
+        whileHover={{ y: -6, x: 6 }}
+        // initial={{ opacity: 0 }}
+        animate={{
+          y: 0,
+        }}
+        // border="4px solid transparent"
+        transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
         position={"relative"}
-        _hover={{ bg: useColorModeValue("#F8FAFC", "gray.900") }}
+        _hover={{
+          bg: "#F8FAFC",
+          borderRadius: "lg",
+          // borderColor: "rgba(182, 212, 255, 1)",
+          boxShadow: "0 2px 13px 0 rgba(182, 212, 255, 1)",
+          color: "rgba(85,85,255,1)",
+        }}
       >
         <HStack>
+          <HStack spacing={4}>
+            {data.hot && (
+              <MotionIcon
+                top="4px"
+                left="14px"
+                position="absolute"
+                // as={HeaderHotIcon}
+                boxSize={6}
+                // Thêm animation keyframes vào css prop
+                // css={{ }}
+                animation={`${fireAnimation} 2s infinite`}
+              />
+            )}
+
+            <Image
+              rounded={"xl"}
+              w={"90px"}
+              h={"60px"}
+              src={data.image_homepage}
+              alt={data.title}
+              objectFit="cover"
+              mx="auto"
+            />
+            <Stack spacing={0}>
+              <Text
+                transition={"all .3s ease"}
+                // _groupHover={{ color: "pink.400" }}
+                fontWeight={700}
+              >
+                {data.title}
+              </Text>
+              <Text
+                transition={"all .3s ease"}
+                _groupHover={{ color: "pink.400" }}
+                fontWeight={500}
+                color={" rgba(141, 141, 141, 1)"}
+              >
+                {data.short_description.header}
+              </Text>
+            </Stack>
+            {/* <Text fontSize={"sm"}>{subLabel}</Text> */}
+          </HStack>
           <Flex
             transition={"all .3s ease"}
             transform={"translateX(-10px)"}
@@ -201,7 +253,7 @@ const DesktopSubNav = () => {
             <Icon w={5} h={5} as={ChevronRightIcon} />
           </Flex>
         </HStack>
-      </Box>
+      </MotionBox>
       <Divider variant={"dashed"} />
     </>
   );
