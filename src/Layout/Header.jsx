@@ -25,7 +25,7 @@ import { Link } from "react-router-dom";
 // import { useSelector, useDispatch } from "react-redux";
 // import { Logout, selectData } from "../redux/Reducer/auth"; // Cập nhật đường dẫn đúng đến file userSlice của bạn
 // import { useTranslation } from "react-i18next";
-import { ChevronRightIcon, CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 // import { locales } from "../i18n";
 // import { useT } from "../lib/utils";
 // import { changeLanguage } from "i18next";
@@ -217,7 +217,7 @@ const DesktopSubNav = ({ data }) => {
               rounded={"xl"}
               w={"90px"}
               h={"60px"}
-              src={data.image_homepage}
+              src={data.image_header}
               alt={data.title}
               objectFit="cover"
               mx="auto"
@@ -241,7 +241,7 @@ const DesktopSubNav = ({ data }) => {
             </Stack>
             {/* <Text fontSize={"sm"}>{subLabel}</Text> */}
           </HStack>
-          <Flex
+          {/* <Flex
             transition={"all .3s ease"}
             transform={"translateX(-10px)"}
             opacity={0}
@@ -251,7 +251,7 @@ const DesktopSubNav = ({ data }) => {
             flex={1}
           >
             <Icon w={5} h={5} as={ChevronRightIcon} />
-          </Flex>
+          </Flex> */}
         </HStack>
       </MotionBox>
       <Divider variant={"dashed"} />

@@ -10,7 +10,7 @@ const customTheme = extendTheme({
     sm: "36rem", //500px
     md: "768px",
     lg: "1024px",
-    xl: "1200px",
+    xl: "1260px",
     "2xl": "1536px",
     "3xl": "1920px",
   },
