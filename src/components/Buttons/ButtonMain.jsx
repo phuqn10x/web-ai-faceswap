@@ -15,6 +15,7 @@ function ButtonMain({
     <Box
       overflow={"hidden"}
       position={"relative"}
+      w={"max-content"}
       // minH={"4.25rem"}
       // h={"auto"}
       // minW={"17.5rem"}
@@ -45,7 +46,12 @@ function ButtonMain({
       >
         <Stack alignItems={"start"} spacing={0.5}>
           {title && (
-            <Text zIndex={"2"} fontSize={fontSize} fontWeight={fontWeight}>
+            <Text
+              zIndex={"2"}
+              fontSize={fontSize}
+             
+              fontWeight={fontWeight}
+            >
               {title}
             </Text>
           )}

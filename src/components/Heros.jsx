@@ -24,9 +24,10 @@ function Heros({
       className="scroll-to-element"
       maxW={"full"}
       overflow={"hidden"}
+      p={0}
       // bgImage={`url(${bannerBaseSketchAi})`}
     >
-      <Container maxW={"xl"}>
+      <Container p={0} maxW={"xl"}>
         <HStack pt={{ base: 10, md: 36 }}>
           <Stack
             transform={"translate(0, -40px)"}

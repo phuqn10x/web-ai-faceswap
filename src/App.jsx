@@ -2,8 +2,17 @@
 import { Routes, Route } from "react-router-dom";
 import { routes } from "./routes";
 import Mainlayout from "./Layout/index";
-import { Fragment } from "react";
+import { Fragment, useEffect } from "react";
+import useFontFaceObserver from "use-font-face-observer";
+
 function App() {
+  const isFontLoaded = useFontFaceObserver([
+    { family: "Mulish Variable" }, // Same name you have in your CSS
+  ]);
+
+  useEffect(() => {
+    console.log("Is font loaded?", isFontLoaded);
+  }, [isFontLoaded]);
   return (
     <div>
       <Routes>
@@ -20,9 +29,11 @@ function App() {
               key={index}
               path={route.path}
               element={
-                <Layout>
-                  <Page />
-                </Layout>
+                isFontLoaded && (
+                  <Layout>
+                    <Page />
+                  </Layout>
+                )
               }
             />
           );

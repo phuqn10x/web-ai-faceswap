@@ -123,5 +123,35 @@ const ai_items = [
   //   },
   // },
 ];
-
-export { ai_items };
+const list_rate = [
+  {
+    user: "Monik morgan",
+    rate: 5.0,
+    comment:
+      "I love this API! I'm trying to remove the background with this API. I'm a programmer and instructional designer and I am glad to know this API.",
+  },
+  {
+    user: "Nathaliaapalm",
+    rate: 5.0,
+    comment:
+      "Best app I've ever used to remove background from images! It is very very very easy and intuitive to use, especially the online version.",
+  },
+  {
+    user: "Phillip Sear",
+    rate: 5.0,
+    comment: "Congratulations on developing such an amazing web app.",
+  },
+  {
+    user: "Ashwin A.",
+    rate: 5.0,
+    comment:
+      "I like this service as they provide quick and fast service. Its Ui is amazing and easy to navigate through.",
+  },
+  {
+    user: "igeeksblog",
+    rate: 5.0,
+    comment:
+      "PicWish has been impeccably accurate in most cases, so kudos to the AI. It’s quick, and the web version has free and Pro options, perfect for one-off users, beginners, and intermediates.",
+  },
+];
+export { ai_items, list_rate };
