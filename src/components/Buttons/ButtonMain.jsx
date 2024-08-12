@@ -1,6 +1,7 @@
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Stack, Text } from "@chakra-ui/react";
 
 function ButtonMain({
+  onClick,
   title,
   subTitle,
   children,
@@ -28,7 +29,9 @@ function ButtonMain({
       boxShadow={"0 10px 13px 0 rgba(182, 212, 255, 1)"}
       {...props}
     >
-      <Box
+      <Button
+        as={"box"}
+        cursor={"pointer"}
         _hover={{ bg: "transparent" }}
         _active={{ bg: "transparent" }}
         w={"full"}
@@ -40,18 +43,13 @@ function ButtonMain({
         gap={0}
         px={6}
         zIndex={2}
-        // onClick={onClick}
+        onClick={onClick}
         // right
         {...propsButton}
       >
         <Stack alignItems={"start"} spacing={0.5}>
           {title && (
-            <Text
-              zIndex={"2"}
-              fontSize={fontSize}
-             
-              fontWeight={fontWeight}
-            >
+            <Text zIndex={"2"} fontSize={fontSize} fontWeight={fontWeight}>
               {title}
             </Text>
           )}
@@ -62,7 +60,7 @@ function ButtonMain({
           )}
         </Stack>
         {children}
-      </Box>
+      </Button>
 
       <Box
         className="gradient_box"

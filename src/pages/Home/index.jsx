@@ -524,13 +524,13 @@ function Home() {
         maxW={"full"}
         background={"linear-gradient(90deg, #EDF6FF 0%, #FDF1FF 100%)"}
       >
-        <Container maxW={"xl"}>
+        <Container p={0} maxW={"xl"}>
           <Stack spacing={20}>
             <Stack
               textAlign={"center"}
               alignItems={"center"}
               spacing={8}
-              my={4}
+              // my={4}
             >
               <Heading
                 flex={1}
@@ -605,11 +605,7 @@ function Home() {
           </Stack>
         </Container>
       </Container>
-      <Container
-        maxW={"full"}
-        background={"linear-gradient(90deg, #EDF6FF 0%, #FDF1FF 100%)"}
-        p={0}
-      >
+      <Container maxW={"full"} background={"rgba(255, 255, 255, 1)"} p={0}>
         <Container py={14} px={0} maxW={"xl"}>
           <Stack spacing={10}>
             <Stack
@@ -1013,7 +1009,14 @@ function Home() {
                               fontFamily="Mulish Variable"
                               fontSize="22px"
                               fontWeight={isExpanded ? 800 : 500}
-                              color={isExpanded ? "blue.500" : "black"}
+                              bgGradient={
+                                isExpanded
+                                  ? "linear(91.13deg, #EA81FF 2.3%, #6AE4FF 99.51%)"
+                                  : "linear(91.13deg, black 2.3%, black 99.51%)"
+                              }
+                              bgClip="text"
+                              // background: linear-gradient(91.13deg, #EA81FF 2.3%, #6AE4FF 99.51%);
+
                               transition="color 0.3s ease, font-weight 0.3s ease"
                             >
                               Get Transparent Background for Your Products
@@ -1031,7 +1034,7 @@ function Home() {
                         px={4}
                         color="rgba(141, 141, 141, 1)"
                       >
-                        Whether it's a portrait, product, or other types of
+                        Whether it&apos;s a portrait, product, or other types of
                         photos, PicWish background remover ensures precise
                         details perfectly. Using advanced AI algorithms, you can
                         effortlessly remove background from any image with just

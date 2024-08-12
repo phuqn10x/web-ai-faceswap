@@ -1,7 +1,7 @@
 // import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { routes } from "./routes";
-import Mainlayout from "./Layout/index";
+import Mainlayout from "./Layout/MainLayout";
 import { Fragment, useEffect } from "react";
 import useFontFaceObserver from "use-font-face-observer";
 

@@ -30,7 +30,7 @@ import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 // import { useT } from "../lib/utils";
 // import { changeLanguage } from "i18next";
 
-import PopOverMain from "../ui/Popover";
+import PopOverMain from "../components/ui/Popover";
 
 import downloadIcon from "../assets/icons/download.svg";
 import ButtonMain from "../components/Buttons/ButtonMain";
@@ -158,7 +158,7 @@ const DesktopNav = () => {
 };
 
 const DesktopSubNav = ({ data }) => {
-  console.log("object", data);
+  // console.log("object", data);
   const MotionIcon = motion(Icon);
   const MotionBox = motion(Box);
   const fireAnimation = keyframes`

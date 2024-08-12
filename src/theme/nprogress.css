@@ -1,0 +1,23 @@
+/* nprogress.css */
+
+/* Thanh tiến trình (bar) */
+#nprogress .bar {
+  background: linear-gradient(
+    to right,
+    #3caaff,
+    #5557ff
+  ); /* Màu sắc của thanh tiến trình */
+  height: 6px; /* Độ cao của thanh tiến trình */
+}
+
+/* Thanh tiến trình (spinner) */
+#nprogress .spinner-icon {
+  border-top-color: #29d; /* Màu sắc của spinner */
+}
+
+/* Thanh tiến trình (spinner) */
+#nprogress .spinner {
+  width: 40px; /* Chiều rộng của spinner */
+  height: 40px; /* Chiều cao của spinner */
+  border-top-width: 4px; /* Độ dày của spinner */
+}
