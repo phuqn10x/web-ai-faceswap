@@ -1,5 +1,6 @@
 import axios from "axios";
 import { normalizePath } from "../lib/utils";
+import userApiRequest from "../apiRequest/user";
 // import { useDispatch } from "react-redux";
 // import store from "../redux/store/store";
 // import { Logout, logout } from "../redux/Reducer/auth";
@@ -26,31 +27,41 @@ const request = async (method, url, options) => {
           "Content-Type": "application/json",
         };
 
-  const user = localStorage.getItem("userInfoBasic");
-  const sessionToken = user ? JSON.parse(user).jwt : null;
-  if (sessionToken) {
-    baseHeaders["x-access-token"] = `Bearer ${sessionToken}`;
-    console.log("x-access-token", baseHeaders["x-access-token"]);
+  const user = localStorage.getItem("tokenUser");
+  // const sessionToken = user ? JSON.parse(user).jwt : null;
+  if (user) {
+    baseHeaders["Authorization"] = `Bearer ${user}`;
+    console.log("Authorization", baseHeaders["x-access-token"]);
   }
-  console.log(
-    "process.env.REACT_APP_API_ENDPOINT_USER",
-    process.env.REACT_APP_API_ENDPOINT_USER
-  );
-  const baseUrl = options?.baseUrl ?? process.env.REACT_APP_API_ENDPOINT_USER;
+  // console.log(
+  //   "import.meta.env.VITE_API_ENDPOINT_USER",
+  //   import.meta.env.VITE_API_ENDPOINT_USER
+  // );
+  const baseUrl = options?.baseUrl ?? import.meta.env.VITE_API_ENDPOINT_USER;
+  
+  options?.baseUrl === import.meta.env.VITE_API_ENDPOINT_AI &&
+    (baseHeaders["Content-Type"] = "multipart/form-data");
+  console.log("options", options);
+  console.log("url", url);
+
   const fullUrl = url.startsWith("/")
     ? `${baseUrl}${url}`
     : `${baseUrl}/${url}`;
+  console.log(fullUrl);
+
   console.log("param", options?.params);
   try {
     const data = {
       method,
       url: fullUrl,
       headers: {
-        "accept-language": localStorage.getItem("language") || "en",
+        // "accept-language": localStorage.getItem("language") || "en",
+        // 'Content-Type': 'multipart/form-data',
         ...baseHeaders,
         ...options?.headers,
       },
       params: options?.params,
+      
       data: body,
     };
     console.log("data", data);
@@ -76,7 +87,7 @@ const request = async (method, url, options) => {
       errorMessage = "Server is not available. Please try again later.";
     }
     if (error.response) {
-      // console.log("error2", error);
+      console.log("error2", error);
 
       errorMessage = error.response.data.message ?? error.response.statusText;
       if (error.response.status) {
@@ -103,15 +114,34 @@ const request = async (method, url, options) => {
     return data;
   }
 };
-const handleAuthenticationError = (baseHeaders, endpoint) => {
+const handleAuthenticationError = async (baseHeaders, endpoint) => {
+  console.log("baseHeaders", baseHeaders.length);
+  const { GetToken } = userApiRequest;
+
+  if (!baseHeaders.length) {
+    console.log("Generate token");
+
+    const response = await GetToken();
+
+    console.log("response token", response.payload);
+    localStorage.setItem("tokenUser", response.payload);
+  }
+  // if (baseHeaders["x-access-token"] === null) {
+  //   const token = await userApiRequest.GetToken();
+  //   console.log("token", token);
+
+  //   // localStorage.setItem("userInfoBasic", JSON.stringify(token));
+  // } else {
+  //   // localStorage.removeItem("userInfoBasic");
+  // }
   // dispatch(authError());
   // store.dispatch(Logout());
-  endpoint === process.env.REACT_APP_API_ENDPOINT_IMAGE
-    ? (window.location.href = "/login")
-    : (baseHeaders["x-access-token"] = null && (window.location.href = "/"));
+  // endpoint === import.meta.env.VITE_API_ENDPOINT_IMAGE
+  //   ? (window.location.href = "/login")
+  //   : (baseHeaders["x-access-token"] = null && (window.location.href = "/"));
 
   // console.log("baseHeaders", baseHeaders);
-  localStorage.removeItem("userInfoBasic");
+  // localStorage.removeItem("userInfoBasic");
 };
 
 // const handleResponse = (url, payload) => {

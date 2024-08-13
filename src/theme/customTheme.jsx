@@ -1,6 +1,6 @@
 import { extendTheme } from "@chakra-ui/react";
 import "@fontsource-variable/mulish";
-import backgroundImage from "../assets/images/background_main.png";
+// import backgroundImage from "../assets/images/background_main.png";
 const customTheme = extendTheme({
   fonts: {
     body: "Mulish Variable", // Font chữ cho văn bản chính trong ứng dụng
@@ -27,9 +27,9 @@ const customTheme = extendTheme({
       },
       body: {
         // scrollY: "none",
-        bgImage: `url(${backgroundImage})`,
-        bgSize: "cover",
-        bgRepeat: "no-repeat",
+        // bgImage: `url(${backgroundImage})`,
+        // bgSize: "cover",
+        // bgRepeat: "no-repeat",
         // overflowY: "hidden",
       },
     },

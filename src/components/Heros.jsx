@@ -17,72 +17,50 @@ import { useEffect } from "react";
 function Heros({
   leftElement,
   title,
-  apiRequest,
-  formDataFields,
   description,
   space = "170px",
-  UploadImage,
-  titleButton,
   children,
+  ButtonElement,
 }) {
-  const { image, setImage } = useImage();
-  useEffect(() => {
-    if (image) {
-      console.log(image[0]);
-    }
-  }, [image]);
+
+
   return (
     <>
-      {!image ? (
-        <Container
-          className="scroll-to-element"
-          maxW={"full"}
-          overflow={"hidden"}
-          p={0}
-          // bgImage={`url(${bannerBaseSketchAi})`}
-        >
-          <Container p={0} maxW={"xl"}>
-            <HStack pt={{ base: 10, md: 36 }}>
-              <Stack
-                transform={"translate(0, -40px)"}
-                flex={1}
-                spacing={{ base: 8, md: 10 }}
-              >
-                <Stack spacing={0} my={4}>
-                  <Heading
-                    fontWeight={"800"}
-                    lineHeight={"55px"}
-                    fontSize={{ md: "42px" }}
-                  >
-                    {title}
-                  </Heading>
-                  <Text
-                    color={"rgba(141, 141, 141, 1)"}
-                    fontWeight={"500"}
-                    fontSize={{ md: "18px" }}
-                    py={10}
-                  >
-                    {description}
-                  </Text>
-                  <HStack color={"#8D8D8D"} spacing={6}>
-                    {/* <ButtonUploadImage /> */}
-                    {UploadImage ? (
-                      <ButtonUploadImage />
-                    ) : (
-                      <ButtonMain
-                        fontSize={"24px"}
-                        title={titleButton}
-                        props={{
-                          px: "28px",
-                          py: "14px",
-                          as: Link,
-                          to: "/signup",
-                        }}
-                        fontWeight="800"
-                      />
-                    )}
+      <Container
+        className="scroll-to-element"
+        maxW={"full"}
+        overflow={"hidden"}
+        p={0}
+        // bgImage={`url(${bannerBaseSketchAi})`}
+      >
+        <Container p={0} maxW={"xl"}>
+          <HStack pt={{ base: 10, md: 36 }}>
+            <Stack
+              transform={"translate(0, -40px)"}
+              flex={1}
+              spacing={{ base: 8, md: 10 }}
+            >
+              <Stack spacing={0} my={4}>
+                <Heading
+                  fontWeight={"800"}
+                  lineHeight={"55px"}
+                  fontSize={{ md: "42px" }}
+                >
+                  {title}
+                </Heading>
+                <Text
+                  color={"rgba(141, 141, 141, 1)"}
+                  fontWeight={"500"}
+                  fontSize={{ md: "18px" }}
+                  py={10}
+                >
+                  {description}
+                </Text>
+                <HStack color={"#8D8D8D"} spacing={6}>
+                  {/* <ButtonUploadImage /> */}
+                  {ButtonElement}
 
-                    {/* {secondButtonTitle && (
+                  {/* {secondButtonTitle && (
                   <MotionBox
                     whileHover={{ transform: "translateY(-10px)" }}
                     position={"relative"}
@@ -120,33 +98,22 @@ function Heros({
                     />
                   </MotionBox>
                 )} */}
-                  </HStack>
-                </Stack>
+                </HStack>
+              </Stack>
 
-                {/* <Text maxW={"680px"} fontWeight={"500"} color={"gray.500"}>
+              {/* <Text maxW={"680px"} fontWeight={"500"} color={"gray.500"}>
                 {description}
               </Text> */}
+            </Stack>
+            <Flex flex={1} w={"1200px"} position={"relative"}>
+              <Stack mr={"-15rem"} ml={space}>
+                {leftElement}
               </Stack>
-              <Flex flex={1} w={"1200px"} position={"relative"}>
-                <Stack mr={"-15rem"} ml={space}>
-                  {leftElement}
-                </Stack>
-              </Flex>
-            </HStack>
-          </Container>
-          {children}
+            </Flex>
+          </HStack>
         </Container>
-      ) : (
-        <>
-          <HandleImageBasic
-            image={image[0]}
-            setImage={setImage}
-            apiRequest={apiRequest}
-            formDataFields={formDataFields}
-            // setOption={setOptions}
-          />
-        </>
-      )}
+        {children}
+      </Container>
     </>
   );
 }

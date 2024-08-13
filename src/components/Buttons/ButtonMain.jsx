@@ -30,8 +30,8 @@ function ButtonMain({
       {...props}
     >
       <Button
-        as={"box"}
-        cursor={"pointer"}
+        // as={"box"}
+        // cursor={"pointer"}
         _hover={{ bg: "transparent" }}
         _active={{ bg: "transparent" }}
         w={"full"}

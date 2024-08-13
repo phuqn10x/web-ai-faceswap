@@ -1,27 +1,29 @@
 import {
   ImageProvider,
+  useImage,
   //  useImage
 } from "../../Context/ImageContext";
 import UploadImage from "../../components/ui/UploadImage";
+import HandleImageAdvanced from "../../pages/AiTools/HandleImageAdvanced";
+import AdvancedOptLayout from "../AdvancedOtpLayout";
 import MainLayout from "../MainLayout";
 // import backgroundImage from "../../../assets/images/enhancer_bg.png";
 // import HandleImageAdvanced from "../../../pages/AiTools/HandleImageAdvanced";
 // import AdvancedOptLayout from "../AdvancedOptLayout";
 
 function AiToolsLayout({ children }) {
-  // const { advanced, image } = useImage();
+  const { advanced, image } = useImage();
 
-  return (
+  return advanced && image ? (
+    <AdvancedOptLayout>
+      <HandleImageAdvanced />
+    </AdvancedOptLayout>
+  ) : (
     // children
     <MainLayout>
       <>{children}</>
     </MainLayout>
   );
-  // return (
-  //   <MainLayout background={backgroundImage}>
-  //     <>{children}</>
-  //   </MainLayout>
-  // );
 }
 
 export default function WrappedAiToolsLayout(props) {
@@ -59,7 +61,7 @@ export default function WrappedAiToolsLayout(props) {
         allowPaste="true"
         // allowDrop="false"
         boxStyles={boxStyles}
-        title={"Droppp here !!!"}
+        title={"Drop here !"}
         global
         instanceId="global"
       />

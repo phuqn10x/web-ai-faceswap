@@ -26,7 +26,7 @@ import { useImage } from "../../Context/ImageContext";
 import { scroller } from "react-scroll";
 import ButtonUploadImage from "../../components/Buttons/ButtonUploadImage";
 // import aiApiRequest from "../../apiRequest/ai";
-import handleImage from "../../apiRequest/handleImage";
+import handleImage from "../../apiRequest/imageHandler";
 // import { useSelector } from "react-redux";
 // import { selectData } from "../../redux/Reducer/auth";
 // import { Link as ReactRouterLink } from "react-router-dom";
@@ -115,7 +115,7 @@ export default function HandleImageBasic({
     setProcess(false);
   };
 
-  const [imageCurrent, setImageCurrent] = useState(image);
+  const [imageCurrent, setImageCurrent] = useState([]);
   // const { image: imageContext } = useImage();
   const MotionBox = motion(Box);
   // useEffect(() => {
@@ -127,59 +127,60 @@ export default function HandleImageBasic({
 
   // useEffect(() => {}, [loading]);
   useEffect(() => {
-    
-    
-    // !process && setImageCurrent(image);
+    !process && setImageCurrent(image);
     // console.log("image", image);
-    setImageCurrent(image)
-    // const processImage = async () => {
-    //   scroller.scrollTo("scroll-to-element", {
-    //     duration: 800,
-    //     delay: 0,
-    //     smooth: "easeInOutQuart",
-    //   });
-    //   if (!process) {
-    //     setProcess(true);
-    //     setResult(null);
-    //     const formData = new FormData();
-    //     formData.append("image_original", image);
-    //     formData.append("prompt", "a cat");
-    //     formData.append("streng_p", "1.5");
-    //     formData.append("target_age", "40");
-    //     formData.append("type_age", "1");
-    //     formData.append("appid", "1");
-    //     formData.append("country", "1");
-    //     formData.append("device_id", "1");
-    //     // Append additional formData fields dynamically
-    //     if (formDataFields) {
-    //       console.log("testing form");
-    //       Object.entries(formDataFields).forEach(([key, value]) => {
-    //         formData.append(key, value);
-    //       });
-    //     }
-    //     try {
-    //       console.log("formData", formData);
+    // setImageCurrent(image)
+    const processImage = async () => {
+      scroller.scrollTo("scroll-to-element", {
+        duration: 800,
+        delay: 0,
+        smooth: "easeInOutQuart",
+      });
+      if (!process) {
+        setProcess(true);
+        setResult(null);
+        const formData = new FormData();
+        console.log("image", image);
 
-    //       const response = await apiRequest(formData);
-    //       console.log(response);
-    //       if (!response.error) {
-    //         console.log("response", response);
-    //         setResult(response.payload.image);
-    //       } else {
-    //         throw response.error;
-    //       }
-    //     } catch (error) {
-    //       // console.log(error);
+        // formData.append("image_original", image);
+        // formData.append("prompt", "a cat");
+        // formData.append("streng_p", "1.5");
+        // formData.append("target_age", "40");
+        // formData.append("type_age", "1");
+        // formData.append("appid", "1");
+        // formData.append("country", "1");
+        // formData.append("device_id", "1");
+        // Append additional formData fields dynamically
+        // if (formDataFields) {
+        //   console.log("testing form");
+        //   Object.entries(formDataFields).forEach(([key, value]) => {
+        //     formData.append(key, value);
+        //   });
+        // }
+        // for (let [key, value] of formData.entries()) {
+        //   console.log(`${key}: ${value}`);
+        // }
+        try {
+          const response = await apiRequest(formData);
+          // console.log(response);
+          // if (!response.error) {
+          //   console.log("response", response);
+          //   setResult(response.payload.image);
+          // } else {
+          //   throw response.error;
+          // }
+        } catch (error) {
+          // console.log(error);
 
-    //       setError(error);
-    //     } finally {
-    //       setProcess(false);
-    //     }
-    //   } else {
-    //     showToast("Processing image, please wait...", "info");
-    //   }
-    // };
-    // processImage();
+          setError(error);
+        } finally {
+          setProcess(false);
+        }
+      } else {
+        showToast("Processing image, please wait...", "info");
+      }
+    };
+    processImage();
   }, [image]);
 
   const handleDownload = async (isOriginal = false) => {
@@ -414,7 +415,7 @@ export default function HandleImageBasic({
 
               {/* {!user && (
                 <> */}
-                  {/* <Link
+              {/* <Link
                     // as={ReactRouterLink}
                     // to={"/login"}
                     // fontSize="sm"
@@ -423,8 +424,8 @@ export default function HandleImageBasic({
                   >
                     login to download HD
                   </Link> */}
-                  {/* <Button onClick={onOpen}>Open Modal</Button> */}
-                  {/* <Modal
+              {/* <Button onClick={onOpen}>Open Modal</Button> */}
+              {/* <Modal
                     blockScrollOnMount={false}
                     isOpen={isOpen}
                     onClose={onClose}
@@ -439,7 +440,7 @@ export default function HandleImageBasic({
                       </ModalBody>
                     </ModalContent>
                   </Modal> */}
-                {/* </>
+              {/* </>
               )} */}
 
               <Text fontSize="sm" color="gray.500">

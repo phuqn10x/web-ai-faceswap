@@ -1,4 +1,5 @@
 import AiToolsLayout from "../Layout/AiToolsLayout";
+import Art from "../pages/AiTools/Art";
 import Enhander from "../pages/AiTools/Enhancer";
 import Sketch from "../pages/AiTools/Sketch";
 import Home from "../pages/Home";
@@ -8,6 +9,7 @@ const routes = [
   { path: "/", component: Home },
   { path: "/ai-tools/enhancer", layout: AiToolsLayout, component: Enhander },
   { path: "/ai-tools/sketch", layout: AiToolsLayout, component: Sketch },
+  { path: "/ai-tools/art-portrait", layout: AiToolsLayout, component: Art },
   { path: "*", component: NotFound },
   // { path: "/ai-tools/change-age", layout: AiToolsLayout, component: ChangeAge },
   // {

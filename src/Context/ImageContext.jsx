@@ -23,7 +23,7 @@ export function ImageProvider({ children }) {
   }, [location]);
 
   useEffect(() => {
-    console.log(image);
+    // console.log(image);
   }, [image]);
   return (
     <ImageContext.Provider value={{ image, setImage, advanced, setAdvanced }}>

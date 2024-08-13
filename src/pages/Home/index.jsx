@@ -63,6 +63,7 @@ import {
 } from "react-compare-slider";
 import { FaRegStar, FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 
 const MotionStack = motion(Stack);
 const renderStars = (rating, size = "1em") => {
@@ -207,10 +208,22 @@ function Home() {
             Done Easy With AI Tools
           </>
         }
+        ButtonElement={
+          <ButtonMain
+            fontSize={"24px"}
+            title={"Get Started For Free"}
+            props={{
+              px: "28px",
+              py: "14px",
+              as: Link,
+              to: "/signup",
+            }}
+            fontWeight="800"
+          />
+        }
         description="Face Swap is an AI-powered online photo editor that delivers
                   amazing tools to retouch pictures easily like never before.
                   Try it now and see your photos transformed with one click!"
-        titleButton={"Get Started For Free"}
         leftElement={
           <>
             <HStack>
