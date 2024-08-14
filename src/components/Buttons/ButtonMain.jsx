@@ -11,6 +11,7 @@ function ButtonMain({
   fontSize = "xl",
   fontSizeSub = "sm",
   fontWeight = "600",
+  isDisabled,
 }) {
   return (
     <Box
@@ -38,12 +39,13 @@ function ButtonMain({
         h={"full"}
         border={"none"}
         borderRadius={"none"}
-        variant="outline"
+        variant="rainbow"
         color={"white"}
         gap={0}
         px={6}
         zIndex={2}
         onClick={onClick}
+        isDisabled={isDisabled}
         // right
         {...propsButton}
       >
@@ -80,7 +82,9 @@ function ButtonMain({
           h={"full"}
           position={"absolute"}
           backgroundImage={
-            "linear-gradient(to right, rgba(234, 129, 255, 1), rgba(106, 228, 255, 1))"
+            isDisabled
+              ? "linear-gradient(to right, rgba(242, 242, 242, 1), rgba(242, 242, 2424, 1))"
+              : "linear-gradient(to right, rgba(234, 129, 255, 1), rgba(106, 228, 255, 1))"
           }
         />
         <Box
@@ -91,7 +95,9 @@ function ButtonMain({
           h={"full"}
           position={"absolute"}
           backgroundImage={
-            "linear-gradient(to left, rgba(234, 129, 255, 1), rgba(106, 228, 255, 1))"
+            isDisabled
+              ? "linear-gradient(to left, rgba(242, 242, 242, 1), rgba(242, 242, 2424, 1))"
+              : "linear-gradient(to left, rgba(234, 129, 255, 1), rgba(106, 228, 255, 1))"
           }
         />
       </Box>

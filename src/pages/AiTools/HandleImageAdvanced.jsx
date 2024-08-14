@@ -30,6 +30,9 @@ import {
   Tabs,
   Image as ChakraImage,
   Spinner,
+  Skeleton,
+  SkeletonText,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import {
   FaArrowsAlt,
@@ -41,6 +44,8 @@ import {
 import aiApiRequest from "../../apiRequest/ai";
 import ButtonMain from "../../components/Buttons/ButtonMain";
 import imageHandler from "../../apiRequest/imageHandler";
+import ScrollContainer from "cm-react-indiana-drag-scroll";
+import "cm-react-indiana-drag-scroll/dist/style.css";
 const CanvasImage = ({
   src,
   onSelect,
@@ -311,7 +316,7 @@ export default function HandleImageAdvanced({ apiRequest }) {
     setSelectedStyle(styles);
     // Thực hiện các hành động khác như cập nhật state hoặc gọi API.
   };
- 
+
   const intervalIdRef = useRef(null);
   const handleGenerate = async () => {
     setIdQueue(null);
@@ -323,7 +328,7 @@ export default function HandleImageAdvanced({ apiRequest }) {
       formData.append("image_original", imageContext[0]);
       formData.append("style", selectedStyle);
       formData.append("seed_take", "-1");
-      formData.append("face_strength", "-1");
+      formData.append("face_strength", "0.8");
       formData.append("appid", "1");
       formData.append("country", "1");
       formData.append("device_id", "1");
@@ -347,8 +352,6 @@ export default function HandleImageAdvanced({ apiRequest }) {
   const [process, setProcess] = useState(false);
   useEffect(() => {
     const processQueue = async () => {
-     
-      
       if (idQueue) {
         setProcess(true);
         console.log("idQueue", idQueue);
@@ -358,44 +361,10 @@ export default function HandleImageAdvanced({ apiRequest }) {
           const response = await getProcessedQueue(idQueue);
           console.log("getProcessedQueue", response);
           if (response.payload) {
-            setImageSelected(response.payload.result.url)
+            setImageSelected(response.payload.result.url);
             clearInterval(intervalIdRef.current);
-            setProcess(false)
+            setProcess(false);
           }
-          // if (!rep?.images) {
-          //   if (data.live_preview) {
-          //     setImageUrl(data.live_preview);
-          //   }
-          // }
-          // if (data.progress > 0.2) {
-          //   setProgress({
-          //     value: data.progress,
-          //     eta: data.eta,
-          //     status: "Generate starting...",
-          //   });
-          // }
-          // if (data.progress > 0.3) {
-          //   setProgress({
-          //     value: data.progress,
-          //     eta: data.eta,
-          //     status: "Inferencing",
-          //   });
-          // }
-          // if (data.progress > 0.5) {
-          //   setProgress({
-          //     value: data.progress,
-          //     eta: data.eta,
-          //     status: "Generating...",
-          //   });
-          // }
-          // if (data.progress > 0.83) {
-          //   clearInterval(intervalIdRef.current);
-          //   setProgress({
-          //     value: 1,
-          //     eta: data.eta,
-          //     status: "Uploading photo...",
-          //   });
-          // }
         }, 2000);
       }
     };
@@ -403,12 +372,22 @@ export default function HandleImageAdvanced({ apiRequest }) {
   }, [idQueue]);
   return (
     <>
-      <Container p={0} maxW={"full"}>
+      <Container p={0} maxW={"full"} h={"89.5vh"}>
         <Flex
-        // justifyContent={"center"}
+          // justifyContent={"center"}
+
+          w={"full"}
+          h={"calc(100%)"}
         >
-          <Box flex={"25%"} w={"25%"} height={"auto"}>
-            <Flex height="100%">
+          <Flex
+            // flex={"25%"}
+            w={"456px"}
+            p={4}
+            flex-direction="column"
+            flex-shrink="0"
+            height={"auto"}
+          >
+            <Stack justifyContent={"space-between"} height="100%" w={"100%"}>
               {/* <Stack
                 bgColor={"white"}
                 border="1px solid rgba(223,223,224,1)"
@@ -433,164 +412,181 @@ export default function HandleImageAdvanced({ apiRequest }) {
                   onClick={() => setSelected("Add Text")}
                 />
               </Stack> */}
-              <Box
-                bgColor={"white"}
-                border="1px solid rgba(223,223,224,1)"
+              <Stack
+                // bgColor={"white"}
+                // border="1px solid rgba(223,223,224,1)"
                 p={"8px"}
+                w={"100%"}
                 overflow="hidden"
                 // flex="78%"
               >
-                <Box overflow={"scroll"} py={"20px"}>
-                  <Tabs position="relative" variant="unstyled">
-                    <TabList
+                {!styles && (
+                  <Box w={"100%"} h={"100%"}>
+                    <Skeleton
+                      height="10%"
                       w={"100%"}
-                      borderRadius="2xl"
-                      bgColor={"rgba(248, 250, 252, 1)"}
-                      zIndex={0}
-                      position="relative"
-                      height="50px"
-                    >
-                      <Tab
-                        px={6}
-                        py={2}
-                        fontWeight={"700"}
-                        fontSize="16px"
-                        color="rgba(141, 141, 141, 1)"
-                        _selected={{ color: "rgba(11, 113, 255, 1)" }}
-                      >
-                        Styles
-                      </Tab>
-                      <Tab
-                        px={6}
-                        py={2}
-                        fontWeight={"700"}
-                        fontSize="16px"
-                        color="rgba(141, 141, 141, 1)"
-                        _selected={{ color: "rgba(11, 113, 255, 1)" }}
-                      >
-                        Plain Color
-                      </Tab>
-                      <Tab
-                        px={6}
-                        py={2}
-                        fontWeight={"700"}
-                        fontSize="16px"
-                        color="rgba(141, 141, 141, 1)"
-                        _selected={{ color: "rgba(11, 113, 255, 1)" }}
-                      >
-                        Interior
-                      </Tab>
-                      <Tab
-                        px={6}
-                        py={2}
-                        fontWeight={"700"}
-                        fontSize="16px"
-                        color="rgba(141, 141, 141, 1)"
-                        _selected={{ color: "rgba(11, 113, 255, 1)" }}
-                      >
-                        Countertop
-                      </Tab>
-                      <Tab
-                        px={6}
-                        py={2}
-                        fontWeight={"700"}
-                        fontSize="16px"
-                        color="rgba(141, 141, 141, 1)"
-                        _selected={{ color: "rgba(11, 113, 255, 1)" }}
-                      >
-                        Real Estate
-                      </Tab>
-                    </TabList>
-                    <TabIndicator
-                      // position="absolute"
-                      // top="0"
-                      // left="0"
-                      // height="100%"
-                      // width="100%"
-                      mt="-1.5px"
-                      height="2px"
-                      bg="blue.500"
-                      borderRadius="2xl"
+                      mb={4}
+                      borderRadius="md"
                     />
+                    {/* <SkeletonText
+                        noOfLines={4}
+                        spacing="4"
+                        skeletonHeight="100px"
+                      /> */}
+                    <Skeleton w="100%" h="90%" borderRadius="md" />
+                  </Box>
+                )}
+                <Box
+                  transition="opacity 0.5s ease-in-out"
+                  opacity={styles ? 1 : 0}
+                  // py={"20px"}
+                  w={"100%"}
+                  h={"100%"}
+                >
+                  {styles && (
+                    <>
+                      <Tabs
+                        // display={"flex"}
+                        // flexDirection={"column"}
+                        // flexShrink={0}
+                        // overflowY={"auto"}
+                        w={"100%"}
+                        // flex={1}
+                        h={"100%"}
+                     
+                        // position="relative"
+                        variant="unstyled"
+                        defaultIndex={0}
+                        isLazy
+                      >
+                        {/* <Stack  overflowY={"auto"}> */}
+                        <TabList
+                           border={"unset"}
+                          // w={"100%"}
+                          // borderRadius="2xl"
+                          // overflow={"hidden"}
+                          // bgColor={"rgba(248, 250, 252, 1)"}
+                          zIndex={0}
+                          // position="relative"
+                          // overflowX={"auto"}
+                          // height="50px"
+                        >
+                          <ScrollContainer
+                            // mouseScroll={{ ignoreElements: "Tab" }}
+                            style={{
+                              display: "flex",
+                              flexDirection: "row", // Xếp các phần tử theo hàng ngang
+                              overflowX: "auto", // Bật cuộn ngang
+                              overflowY: "hidden", // Ẩn cuộn dọc
+                              whiteSpace: "nowrap", // Đảm bảo không ngắt dòng
+                              userSelect: "none", // Ngăn không cho bôi đen chữ khi drag
+                              WebkitUserSelect: "none", // Đảm bảo hỗ trợ trình duyệt Webkit
+                              MozUserSelect: "none",
 
-                    <TabPanels>
-                      <TabPanel>
-                        {styles && (
-                          <Tabs variant="soft-rounded" colorScheme="teal">
-                            <TabList overflowX={"scroll"}>
-                              {Object.keys(styles).map((category) => (
-                                <Tab key={category}>
-                                  {styles[category].name_style}
-                                </Tab>
-                              ))}
-                            </TabList>
+                              padding: "4px 0 ",
+                            }}
+                          >
+                            {/* scrollable content */}
 
-                            <TabPanels height={"550px"} overflowY={"scroll"}>
-                              {Object.keys(styles).map((category) => (
-                                <TabPanel key={category}>
-                                  <Box display="flex" flexWrap="wrap">
-                                    {styles[category].object.map(
-                                      (item, index) => (
-                                        // <Box key={index}>
-                                        <Button
-                                          height={"auto"}
-                                          key={index}
-                                          p={2}
-                                          variant={"unstyled"}
-                                          onClick={() =>
-                                            handleSelectStyle(item.style)
-                                          }
-                                          borderColor={
-                                            selectedStyle === item.style
-                                              ? "teal"
-                                              : "gray"
-                                          }
-                                          bg={
-                                            selectedStyle === item.style
-                                              ? "teal.100"
-                                              : "white"
-                                          }
-                                          _hover={
-                                            selectedStyle !== item.style && {
-                                              bg: "teal.50",
-                                            }
-                                          }
-                                        >
-                                          <ChakraImage
-                                            src={item.icon_url}
-                                            alt={item.style}
-                                            boxSize="110px"
-                                            objectFit="contain"
-                                          />
-                                          <Box mt={2} textAlign="center">
-                                            {item.style}
-                                          </Box>
-                                        </Button>
-                                        // </Box>
-                                      )
-                                    )}
+                            {Object.keys(styles).map((category, index) => (
+                              <Tab
+                                // px={6}
+                                // py={2}
+                                fontWeight={"700"}
+                                fontSize="16px"
+                                position={"relative"}
+                                color="rgba(141, 141, 141, 1)"
+                                _selected={{
+                                  color: "rgba(11, 113, 255, 1)",
+                                  _after: {
+                                    content: '""',
+                                    position: "absolute",
+                                    width: "50px", // Chiều dài của thanh ngang
+                                    height: "4px", // Chiều cao của thanh ngang
+                                    bg: "rgba(11, 113, 255, 1)", // Màu sắc của thanh ngang
+                                    borderRadius: "4px", // Bo tròn góc
+                                    bottom: "0px", // Độ lệch xuống phía dưới text
+                                    left: "50%",
+                                    transform: "translateX(-50%)", // Căn giữa thanh ngang với text
+                                  },
+                                }}
+                                key={`${category}-${index}`}
+                                whiteSpace={"nowrap"}
+                              >
+                                {styles[category].name_style}
+                              </Tab>
+                            ))}
+                          </ScrollContainer>
+                        </TabList>
+                        {/* <TabIndicator
+                          // position="absolute"
+                          // top="0"
+                          // left="0"
+                          // height="100%"
+                          // width="100%"
+                          mt="-1.5px"
+                          height="2px"
+                          bg="blue.500"
+                          borderRadius="2xl"
+                        /> */}
+                        <TabPanels overflowY={"auto"} height={"100%"}>
+                          {Object.keys(styles).map((category, index) => (
+                            <TabPanel key={`${category}-${index}`}>
+                              <SimpleGrid pb={6} columns={3} spacing={2}>
+                                {styles[category].object.map((item, index) => (
+                                  <Box
+                                    display="flex"
+                                    // boxSize="80px"
+                                    flexWrap="wrap"
+                                    key={index}
+                                  >
+                                    <Button
+                                      height={"auto"}
+                                      p={2}
+                                      variant={"unstyled"}
+                                      onClick={() =>
+                                        handleSelectStyle(item.style)
+                                      }
+                                      borderColor={
+                                        selectedStyle === item.style
+                                          ? "teal"
+                                          : "gray"
+                                      }
+                                      bg={
+                                        selectedStyle === item.style
+                                          ? "teal.100"
+                                          : "white"
+                                      }
+                                      _hover={
+                                        selectedStyle !== item.style && {
+                                          bg: "teal.50",
+                                        }
+                                      }
+                                    >
+                                      <ChakraImage
+                                        borderRadius={"10px"}
+                                        loading="lazy"
+                                        src={item.icon_url}
+                                        alt={item.style}
+                                        objectFit="cover"
+                                        boxSize="150px"
+                                        fallbackSrc="https://via.placeholder.com/150"
+                                      />
+
+                                      {/* <Box mt={2} textAlign="center">
+                                        {item.style}
+                                      </Box> */}
+                                    </Button>
                                   </Box>
-                                </TabPanel>
-                              ))}
-                            </TabPanels>
-                          </Tabs>
-                        )}
-                      </TabPanel>
-                      <TabPanel>
-                        <p>three!</p>
-                      </TabPanel>
-                      <TabPanel>
-                        <p>three!</p>
-                      </TabPanel>
-                      <TabPanel>
-                        <p>three!</p>
-                      </TabPanel>
-                      <TabPanel>
-                        <p>three!</p>
-                      </TabPanel>
-                    </TabPanels>
-                  </Tabs>
-                  <ButtonMain title={"GENERATE"} onClick={handleGenerate} />
+                                ))}
+                              </SimpleGrid>
+                            </TabPanel>
+                          ))}
+                        </TabPanels>
+                        {/* </Stack> */}
+                      </Tabs>
+                    </>
+                  )}
                 </Box>
 
                 {/* <Grid
@@ -692,18 +688,32 @@ export default function HandleImageAdvanced({ apiRequest }) {
                     onClick={() => setColorRect("rgba(0,0,0,1)")}
                   ></Button>
                 </Grid> */}
-              </Box>
-            </Flex>
-          </Box>
+              </Stack>
+              <Stack align-items="center">
+                <ButtonMain
+                  fontWeight={"800"}
+                  props={{ width: "100%" }}
+                  propsButton={{ px: "10px", py: "10px" }}
+                  // propsButton={{ isDisabled: !selectedStyle }}
+                  isDisabled={!selectedStyle}
+                  fontSize={"22px"}
+                  onClick={handleGenerate}
+                  title={"Gererate"}
+                />
+
+                {/* </ButtonMain> */}
+              </Stack>
+            </Stack>
+          </Flex>
           {/* <Box> */}
           <Box
-            flex={"75%"}
+          // flex={"75%"}
 
-            // bgImage={`linear-gradient(45deg,#ffffff 25%,transparent 0),linear-gradient(45deg,transparent 75%,#ffffff 0),linear-gradient(45deg,#ffffff 25%,transparent 0),linear-gradient(45deg,transparent 75%,#ffffff 0)`}
-            // bgPosition={"0 0,15px 15px,15px 15px,30px 30px"}
-            // bgSize={"30px 30px"}
-            // width={imageSize.width}
-            // height={imageSize.height}
+          // bgImage={`linear-gradient(45deg,#ffffff 25%,transparent 0),linear-gradient(45deg,transparent 75%,#ffffff 0),linear-gradient(45deg,#ffffff 25%,transparent 0),linear-gradient(45deg,transparent 75%,#ffffff 0)`}
+          // bgPosition={"0 0,15px 15px,15px 15px,30px 30px"}
+          // bgSize={"30px 30px"}
+          // width={imageSize.width}
+          // height={imageSize.height}
           >
             {imageSize && (
               <Stage
@@ -789,38 +799,37 @@ export default function HandleImageAdvanced({ apiRequest }) {
               </Stage>
             )}
             {process && (
-                  // <p>test</p>
-                  <Stack
-                    position="absolute"
-                    top="0"
-                    left="0"
-                    right="0"
-                    bottom="0"
-                    zIndex={"999"}
-                    alignItems="center"
-                    justifyContent="center"
-                    bgColor="rgba(0, 0, 0, 0.4)"
-                  >
-                    {/* <Box> */}
-                    <Flex
-                      alignItems="center"
-                      justifyContent="center"
-                      h={"72px"}
-                      w={"72px"}
-                      bgColor={" rgba(0, 0, 0, 0.7)"}
-                      p={4}
-                      borderRadius={"12px"}
-                      m={0}
-                    >
-                      <Spinner boxSize={8} />
-                    </Flex>
-                    <Text color={"white"}>Loading...</Text>
-                    {/* </Box> */}
-                  </Stack>
-                )}
+              // <p>test</p>
+              <Stack
+                position="absolute"
+                top="0"
+                left="0"
+                right="0"
+                bottom="0"
+                zIndex={"999"}
+                alignItems="center"
+                justifyContent="center"
+                bgColor="rgba(0, 0, 0, 0.4)"
+              >
+                {/* <Box> */}
+                <Flex
+                  alignItems="center"
+                  justifyContent="center"
+                  h={"72px"}
+                  w={"72px"}
+                  bgColor={" rgba(0, 0, 0, 0.7)"}
+                  p={4}
+                  borderRadius={"12px"}
+                  m={0}
+                >
+                  <Spinner boxSize={8} />
+                </Flex>
+                <Text color={"white"}>Loading...</Text>
+                {/* </Box> */}
+              </Stack>
+            )}
             {/* </Box> */}
           </Box>
-          
         </Flex>
       </Container>
     </>

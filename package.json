@@ -17,6 +17,7 @@
     "@fontsource-variable/mulish": "^5.0.19",
     "@fontsource/mulish": "^5.0.18",
     "axios": "^1.7.2",
+    "cm-react-indiana-drag-scroll": "^3.0.3-alpha",
     "filepond-plugin-file-validate-type": "1.2.6",
     "filepond-plugin-image-exif-orientation": "1.0.11",
     "filepond-plugin-image-preview": "4.6.10",
@@ -25,16 +26,16 @@
     "nprogress": "^0.2.0",
     "react": "^18.3.1",
     "react-compare-slider": "^3.1.0",
-    "react-konva": "^18.2.10",
-    "use-image": "^1.1.1",
     "react-dom": "^18.3.1",
     "react-fast-marquee": "^1.6.5",
     "react-filepond": "^7.1.2",
     "react-icons": "^5.2.1",
+    "react-konva": "^18.2.10",
     "react-router-dom": "^6.26.0",
+    "react-scroll": "^1.9.0",
     "react-toastify": "^10.0.5",
     "use-font-face-observer": "^1.2.2",
-    "react-scroll": "^1.9.0"
+    "use-image": "^1.1.1"
   },
   "devDependencies": {
     "@svgr/rollup": "^8.1.0",

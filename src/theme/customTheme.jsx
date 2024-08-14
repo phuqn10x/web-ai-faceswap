@@ -23,7 +23,8 @@ const customTheme = extendTheme({
       },
       "::-webkit-scrollbar-thumb": {
         borderRadius: "0.5rem",
-        bgImage: "linear(to bottom, rgba(234, 129, 255, 1), rgba(106, 228, 255, 1))!important",
+        bgImage:
+          "linear(to bottom, rgba(234, 129, 255, 1), rgba(106, 228, 255, 1))!important",
       },
       body: {
         // scrollY: "none",
@@ -51,6 +52,15 @@ const customTheme = extendTheme({
       baseStyle: {
         px: 0,
         py: 20, // Set default padding to 0
+      },
+    },
+    Button: {
+      variants: {
+        rainbow: {
+          _disabled: {
+            color: "rgba(141, 141, 141, 1)", // Không thay đổi vị trí khi hover vào button bị disable
+          },
+        },
       },
     },
   },
