@@ -46,6 +46,7 @@ import ButtonMain from "../../components/Buttons/ButtonMain";
 import imageHandler from "../../apiRequest/imageHandler";
 import ScrollContainer from "cm-react-indiana-drag-scroll";
 import "cm-react-indiana-drag-scroll/dist/style.css";
+// import { ArtsStyleComponent } from "./Art";
 const CanvasImage = ({
   src,
   onSelect,
@@ -54,6 +55,7 @@ const CanvasImage = ({
   rectHeight,
   imageWidth,
   imageHeight,
+  editable,
   colorRect = "transparent",
 }) => {
   const imageRef = useRef();
@@ -78,7 +80,7 @@ const CanvasImage = ({
       {image ? (
         <KonvaImage
           image={image}
-          draggable
+          draggable={editable}
           width={imageWidth}
           height={imageHeight}
           ref={imageRef}
@@ -90,7 +92,7 @@ const CanvasImage = ({
         <Rect
           width={rectWidth}
           height={rectHeight}
-          draggable
+          draggable={editable}
           fill={colorRect}
           ref={imageRef}
           onClick={onSelect}
@@ -162,12 +164,18 @@ const SidebarButton = ({ icon, label, isSelected, onClick }) => {
     </VStack>
   );
 };
-export default function HandleImageAdvanced({ apiRequest }) {
+export default function HandleImageAdvanced() {
   const canvasWidth = 1300;
   const canvasHeight = 810;
   const stageRef = useRef();
-  const { image: imageContext } = useImages();
-  const [imageSelected, setImageSelected] = useState([]);
+  const {
+    image: imageContext,
+    advanced,
+    imageSelected,
+    setImageSelected,
+    loading,
+  } = useImages();
+  // const [imageSelected, setImageSelected] = useState([]);
   const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
   const [patternImage, setPatternImage] = useState(null);
   const [colorRect, setColorRect] = useState("transparent");
@@ -290,27 +298,27 @@ export default function HandleImageAdvanced({ apiRequest }) {
   //     image.removeEventListener("load", handleLoad);
   //   };
   // }, [imageSelected]);
-  const { artStyle, art } = aiApiRequest;
-  const { getProcessedQueue } = imageHandler;
-  const [styles, setStyles] = useState();
-  const [selected, setSelected] = useState("Images");
+  // const { artStyle, art } = aiApiRequest;
+  // const { getProcessedQueue } = imageHandler;
+  // const [styles, setStyles] = useState();
+  // const [selected, setSelected] = useState("Images");
 
-  useEffect(() => {
-    console.log("test");
+  // useEffect(() => {
+  //   console.log("test");
 
-    const getArtStyle = async () => {
-      const response = await artStyle();
-      if (!response.error) {
-        console.log("response", response.payload);
-        setStyles(response.payload);
-      } else {
-        throw response.error;
-      }
-    };
-    getArtStyle();
-  }, []);
+  //   const getArtStyle = async () => {
+  //     const response = await artStyle();
+  //     if (!response.error) {
+  //       console.log("response", response.payload);
+  //       setStyles(response.payload);
+  //     } else {
+  //       throw response.error;
+  //     }
+  //   };
+  //   getArtStyle();
+  // }, []);
   const [selectedStyle, setSelectedStyle] = useState();
-  const [idQueue, setIdQueue] = useState();
+  // const [idQueue, setIdQueue] = useState();
   const handleSelectStyle = (styles) => {
     console.log("Selected style:", styles);
     setSelectedStyle(styles);
@@ -318,58 +326,59 @@ export default function HandleImageAdvanced({ apiRequest }) {
   };
 
   const intervalIdRef = useRef(null);
-  const handleGenerate = async () => {
-    setIdQueue(null);
-    if (imageContext) {
-      // console.log("imageSelected", imageSelected);
-      console.log("Generating style:", selectedStyle);
-      const formData = new FormData();
-      // console.log("image", imageContext);
-      formData.append("image_original", imageContext[0]);
-      formData.append("style", selectedStyle);
-      formData.append("seed_take", "-1");
-      formData.append("face_strength", "0.8");
-      formData.append("appid", "1");
-      formData.append("country", "1");
-      formData.append("device_id", "1");
-      formData.append("tier", "0");
-      // Append additional formData fields dynamically
-      // if (formDataFields) {
-      //   console.log("testing form");
-      //   Object.entries(formData).forEach(([key, value]) => {
-      //     formData.append(key, value);
-      //   });
-      // }
-      // console.log(formData.entries());
+  // const handleGenerate = async () => {
+  //   setIdQueue(null);
+  //   if (imageContext) {
+  //     // console.log("imageSelected", imageSelected);
+  //     console.log("Generating style:", selectedStyle);
+  //     const formData = new FormData();
+  //     // console.log("image", imageContext);
+  //     formData.append("image_original", imageContext[0]);
+  //     formData.append("style", selectedStyle);
+  //     formData.append("seed_take", "-1");
+  //     formData.append("face_strength", "0.8");
+  //     formData.append("appid", "1");
+  //     formData.append("country", "1");
+  //     formData.append("device_id", "1");
+  //     formData.append("tier", "0");
+  //     // Append additional formData fields dynamically
+  //     // if (formDataFields) {
+  //     //   console.log("testing form");
+  //     //   Object.entries(formData).forEach(([key, value]) => {
+  //     //     formData.append(key, value);
+  //     //   });
+  //     // }
+  //     // console.log(formData.entries());
 
-      const response = await art(formData);
-      setIdQueue(response.payload._id);
-      // console.log("formData", formData);
-    }
-    // setSelectedStyle(style);
-    // Thực hiện các hành động khác như cập nhật state hoặc gọi API.
-  };
-  const [process, setProcess] = useState(false);
-  useEffect(() => {
-    const processQueue = async () => {
-      if (idQueue) {
-        setProcess(true);
-        console.log("idQueue", idQueue);
-        const response = await getProcessedQueue(idQueue);
-        console.log("getProcessedQueue", response);
-        intervalIdRef.current = setInterval(async () => {
-          const response = await getProcessedQueue(idQueue);
-          console.log("getProcessedQueue", response);
-          if (response.payload) {
-            setImageSelected(response.payload.result.url);
-            clearInterval(intervalIdRef.current);
-            setProcess(false);
-          }
-        }, 2000);
-      }
-    };
-    processQueue();
-  }, [idQueue]);
+  //     const response = await art(formData);
+  //     setIdQueue(response.payload._id);
+  //     // console.log("formData", formData);
+  //   }
+  //   // setSelectedStyle(style);
+  //   // Thực hiện các hành động khác như cập nhật state hoặc gọi API.
+  // };
+  // const [process, setProcess] = useState(false);
+
+  // useEffect(() => {
+  //   const processQueue = async () => {
+  //     if (idQueue) {
+  //       setProcess(true);
+  //       console.log("idQueue", idQueue);
+  //       const response = await getProcessedQueue(idQueue);
+  //       console.log("getProcessedQueue", response);
+  //       intervalIdRef.current = setInterval(async () => {
+  //         const response = await getProcessedQueue(idQueue);
+  //         console.log("getProcessedQueue", response);
+  //         if (response.payload) {
+  //           setImageSelected(response.payload.result.url);
+  //           clearInterval(intervalIdRef.current);
+  //           setProcess(false);
+  //         }
+  //       }, 2000);
+  //     }
+  //   };
+  //   processQueue();
+  // }, [idQueue]);
   return (
     <>
       <Container p={0} maxW={"full"} h={"89.5vh"}>
@@ -382,328 +391,13 @@ export default function HandleImageAdvanced({ apiRequest }) {
           <Flex
             // flex={"25%"}
             w={"456px"}
-            p={4}
+            p={2}
             flex-direction="column"
             flex-shrink="0"
             height={"auto"}
           >
-            <Stack justifyContent={"space-between"} height="100%" w={"100%"}>
-              {/* <Stack
-                bgColor={"white"}
-                border="1px solid rgba(223,223,224,1)"
-                flex="22%"
-              >
-                <SidebarButton
-                  icon={<FaFillDrip />}
-                  label="Background"
-                  isSelected={selected === "Background"}
-                  onClick={() => setSelected("Background")}
-                />
-                <SidebarButton
-                  icon={<FaArrowsAlt />}
-                  label="Size"
-                  isSelected={selected === "Size"}
-                  onClick={() => setSelected("Size")}
-                />
-                <SidebarButton
-                  icon={<FaTextHeight />}
-                  label="Add Text"
-                  isSelected={selected === "Add Text"}
-                  onClick={() => setSelected("Add Text")}
-                />
-              </Stack> */}
-              <Stack
-                // bgColor={"white"}
-                // border="1px solid rgba(223,223,224,1)"
-                p={"8px"}
-                w={"100%"}
-                overflow="hidden"
-                // flex="78%"
-              >
-                {!styles && (
-                  <Box w={"100%"} h={"100%"}>
-                    <Skeleton
-                      height="10%"
-                      w={"100%"}
-                      mb={4}
-                      borderRadius="md"
-                    />
-                    {/* <SkeletonText
-                        noOfLines={4}
-                        spacing="4"
-                        skeletonHeight="100px"
-                      /> */}
-                    <Skeleton w="100%" h="90%" borderRadius="md" />
-                  </Box>
-                )}
-                <Box
-                  transition="opacity 0.5s ease-in-out"
-                  opacity={styles ? 1 : 0}
-                  // py={"20px"}
-                  w={"100%"}
-                  h={"100%"}
-                >
-                  {styles && (
-                    <>
-                      <Tabs
-                        // display={"flex"}
-                        // flexDirection={"column"}
-                        // flexShrink={0}
-                        // overflowY={"auto"}
-                        w={"100%"}
-                        // flex={1}
-                        h={"100%"}
-                     
-                        // position="relative"
-                        variant="unstyled"
-                        defaultIndex={0}
-                        isLazy
-                      >
-                        {/* <Stack  overflowY={"auto"}> */}
-                        <TabList
-                           border={"unset"}
-                          // w={"100%"}
-                          // borderRadius="2xl"
-                          // overflow={"hidden"}
-                          // bgColor={"rgba(248, 250, 252, 1)"}
-                          zIndex={0}
-                          // position="relative"
-                          // overflowX={"auto"}
-                          // height="50px"
-                        >
-                          <ScrollContainer
-                            // mouseScroll={{ ignoreElements: "Tab" }}
-                            style={{
-                              display: "flex",
-                              flexDirection: "row", // Xếp các phần tử theo hàng ngang
-                              overflowX: "auto", // Bật cuộn ngang
-                              overflowY: "hidden", // Ẩn cuộn dọc
-                              whiteSpace: "nowrap", // Đảm bảo không ngắt dòng
-                              userSelect: "none", // Ngăn không cho bôi đen chữ khi drag
-                              WebkitUserSelect: "none", // Đảm bảo hỗ trợ trình duyệt Webkit
-                              MozUserSelect: "none",
-
-                              padding: "4px 0 ",
-                            }}
-                          >
-                            {/* scrollable content */}
-
-                            {Object.keys(styles).map((category, index) => (
-                              <Tab
-                                // px={6}
-                                // py={2}
-                                fontWeight={"700"}
-                                fontSize="16px"
-                                position={"relative"}
-                                color="rgba(141, 141, 141, 1)"
-                                _selected={{
-                                  color: "rgba(11, 113, 255, 1)",
-                                  _after: {
-                                    content: '""',
-                                    position: "absolute",
-                                    width: "50px", // Chiều dài của thanh ngang
-                                    height: "4px", // Chiều cao của thanh ngang
-                                    bg: "rgba(11, 113, 255, 1)", // Màu sắc của thanh ngang
-                                    borderRadius: "4px", // Bo tròn góc
-                                    bottom: "0px", // Độ lệch xuống phía dưới text
-                                    left: "50%",
-                                    transform: "translateX(-50%)", // Căn giữa thanh ngang với text
-                                  },
-                                }}
-                                key={`${category}-${index}`}
-                                whiteSpace={"nowrap"}
-                              >
-                                {styles[category].name_style}
-                              </Tab>
-                            ))}
-                          </ScrollContainer>
-                        </TabList>
-                        {/* <TabIndicator
-                          // position="absolute"
-                          // top="0"
-                          // left="0"
-                          // height="100%"
-                          // width="100%"
-                          mt="-1.5px"
-                          height="2px"
-                          bg="blue.500"
-                          borderRadius="2xl"
-                        /> */}
-                        <TabPanels overflowY={"auto"} height={"100%"}>
-                          {Object.keys(styles).map((category, index) => (
-                            <TabPanel key={`${category}-${index}`}>
-                              <SimpleGrid pb={6} columns={3} spacing={2}>
-                                {styles[category].object.map((item, index) => (
-                                  <Box
-                                    display="flex"
-                                    // boxSize="80px"
-                                    flexWrap="wrap"
-                                    key={index}
-                                  >
-                                    <Button
-                                      height={"auto"}
-                                      p={2}
-                                      variant={"unstyled"}
-                                      onClick={() =>
-                                        handleSelectStyle(item.style)
-                                      }
-                                      borderColor={
-                                        selectedStyle === item.style
-                                          ? "teal"
-                                          : "gray"
-                                      }
-                                      bg={
-                                        selectedStyle === item.style
-                                          ? "teal.100"
-                                          : "white"
-                                      }
-                                      _hover={
-                                        selectedStyle !== item.style && {
-                                          bg: "teal.50",
-                                        }
-                                      }
-                                    >
-                                      <ChakraImage
-                                        borderRadius={"10px"}
-                                        loading="lazy"
-                                        src={item.icon_url}
-                                        alt={item.style}
-                                        objectFit="cover"
-                                        boxSize="150px"
-                                        fallbackSrc="https://via.placeholder.com/150"
-                                      />
-
-                                      {/* <Box mt={2} textAlign="center">
-                                        {item.style}
-                                      </Box> */}
-                                    </Button>
-                                  </Box>
-                                ))}
-                              </SimpleGrid>
-                            </TabPanel>
-                          ))}
-                        </TabPanels>
-                        {/* </Stack> */}
-                      </Tabs>
-                    </>
-                  )}
-                </Box>
-
-                {/* <Grid
-                  padding={"10px"}
-                  placeItems={"center"}
-                  templateColumns="repeat(4, minmax(0,1fr))"
-                  gap={"6px"}
-                >
-                  {" "}
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"#dfdfdf"}
-                    bgImage={`linear-gradient(45deg,white 25%,transparent 0px),linear-gradient(45deg,transparent 75%,white 0px),linear-gradient(45deg,white 25%,transparent 0px),linear-gradient(45deg,transparent 75%,white 0px)`}
-                    width={"3.5rem"}
-                    bgPosition={"0 0,10px 10px,10px 10px,20px 20px"}
-                    bgSize={"20px 20px"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("transparent")}
-                  ></Button>
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"rgba(139,27,27,1)"}
-                    width={"3.5rem"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("rgba(139,27,27,1)")}
-                  ></Button>
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"rgba(255,255,255,1)"}
-                    width={"3.5rem"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("rgba(255,255,255,1)")}
-                  ></Button>
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"rgba(0,0,0,1)"}
-                    width={"3.5rem"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("rgba(0,0,0,1)")}
-                  ></Button>
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"rgba(0,0,0,1)"}
-                    width={"3.5rem"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("rgba(0,0,0,1)")}
-                  ></Button>
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"rgba(0,0,0,1)"}
-                    width={"3.5rem"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("rgba(0,0,0,1)")}
-                  ></Button>
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"rgba(0,0,0,1)"}
-                    width={"3.5rem"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("rgba(0,0,0,1)")}
-                  ></Button>
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"rgba(0,0,0,1)"}
-                    width={"3.5rem"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("rgba(0,0,0,1)")}
-                  ></Button>
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"rgba(0,0,0,1)"}
-                    width={"3.5rem"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("rgba(0,0,0,1)")}
-                  ></Button>
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"rgba(0,0,0,1)"}
-                    width={"3.5rem"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("rgba(0,0,0,1)")}
-                  ></Button>
-                  <Button
-                    border="1px solid rgba(223,223,224,1)"
-                    variant={"color"}
-                    bgColor={"rgba(0,0,0,1)"}
-                    width={"3.5rem"}
-                    height={"3.5rem"}
-                    onClick={() => setColorRect("rgba(0,0,0,1)")}
-                  ></Button>
-                </Grid> */}
-              </Stack>
-              <Stack align-items="center">
-                <ButtonMain
-                  fontWeight={"800"}
-                  props={{ width: "100%" }}
-                  propsButton={{ px: "10px", py: "10px" }}
-                  // propsButton={{ isDisabled: !selectedStyle }}
-                  isDisabled={!selectedStyle}
-                  fontSize={"22px"}
-                  onClick={handleGenerate}
-                  title={"Gererate"}
-                />
-
-                {/* </ButtonMain> */}
-              </Stack>
-            </Stack>
+            {/* <ArtsStyleComponent setImageSelected={setImageSelected} /> */}
+            {advanced.tools}
           </Flex>
           {/* <Box> */}
           <Box
@@ -741,24 +435,27 @@ export default function HandleImageAdvanced({ apiRequest }) {
                     fillPatternRepeat="repeat"
                   />
                 </Layer>
-                <Layer x={pos.x} y={pos.y}>
-                  {/* <Rect
-                    width={imageSize.width}
-                    height={imageSize.height}
-                    fill="red"
-                  /> */}
-                  <CanvasImage
-                    // isSelected={selectedE}
-                    // src={imageSelected}
-                    rectWidth={imageSize.width}
-                    rectHeight={imageSize.height}
-                    onSelect={() => {
-                      setSelectE("rect");
-                    }}
-                    colorRect={colorRect}
-                    isSelected={selectedE === "rect"}
-                  />
-                </Layer>
+                {advanced.editImage && (
+                  <Layer x={pos.x} y={pos.y}>
+                    {/* <Rect
+                   width={imageSize.width}
+                   height={imageSize.height}
+                   fill="red"
+                 /> */}
+                    <CanvasImage
+                      // isSelected={selectedE}
+                      // src={imageSelected}
+                      rectWidth={imageSize.width}
+                      rectHeight={imageSize.height}
+                      onSelect={() => {
+                        setSelectE("rect");
+                      }}
+                      colorRect={colorRect}
+                      isSelected={selectedE === "rect"}
+                    />
+                  </Layer>
+                )}
+
                 <Layer
                   x={pos.x}
                   y={pos.y}
@@ -783,22 +480,37 @@ export default function HandleImageAdvanced({ apiRequest }) {
             />
           ))} */}
                   {/* get once a time image ! */}
-
-                  <CanvasImage
-                    // isSelected={selectedE}
-                    src={imageSelected}
-                    // onSelect={setSelectE}
-                    imageWidth={imageSize.width}
-                    imageHeight={imageSize.height}
-                    onSelect={() => {
-                      setSelectE("image");
-                    }}
-                    isSelected={selectedE === "image"}
-                  />
+                  {advanced.editImage ? (
+                    <CanvasImage
+                      // isSelected={selectedE}
+                      src={imageSelected}
+                      // onSelect={setSelectE}
+                      imageWidth={imageSize.width}
+                      imageHeight={imageSize.height}
+                      onSelect={() => {
+                        setSelectE("image");
+                      }}
+                      editable
+                      isSelected={selectedE === "image"}
+                    />
+                  ) : (
+                    <CanvasImage
+                      // isSelected={selectedE}
+                      src={imageSelected}
+                      // onSelect={setSelectE}
+                      imageWidth={imageSize.width}
+                      imageHeight={imageSize.height}
+                      // editable={}
+                      // onSelect={() => {
+                      //   setSelectE("image");
+                      // }}
+                      // isSelected={selectedE === "image"}
+                    />
+                  )}
                 </Layer>
               </Stage>
             )}
-            {process && (
+            {loading && (
               // <p>test</p>
               <Stack
                 position="absolute"

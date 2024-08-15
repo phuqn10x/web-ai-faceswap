@@ -6,7 +6,11 @@ const ImageContext = createContext();
 
 export function ImageProvider({ children }) {
   const [image, setImage] = useState(null);
+  const [imageSelected, setImageSelected] = useState([]);
   const [advanced, setAdvanced] = useState(false);
+  const [loading, setLoading] = useState(false);
+  // const [advanced, setAdvanced] = useState(false);
+  // const [advanced, setAdvanced] = useState(false);
   //  const { setImage } = useImage();
   const location = useLocation();
   // const previousLocationRef = useRef(location.pathname);
@@ -26,7 +30,18 @@ export function ImageProvider({ children }) {
     // console.log(image);
   }, [image]);
   return (
-    <ImageContext.Provider value={{ image, setImage, advanced, setAdvanced }}>
+    <ImageContext.Provider
+      value={{
+        image,
+        setImage,
+        advanced,
+        setAdvanced,
+        imageSelected,
+        setImageSelected,
+        loading,
+        setLoading,
+      }}
+    >
       {children}
     </ImageContext.Provider>
   );

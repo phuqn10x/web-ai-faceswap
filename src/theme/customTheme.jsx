@@ -18,13 +18,15 @@ const customTheme = extendTheme({
   styles: {
     global: {
       "::-webkit-scrollbar": {
-        w: "0.5rem",
+        w: "5px",
         bgColor: "transparent",
       },
       "::-webkit-scrollbar-thumb": {
-        borderRadius: "0.5rem",
-        bgImage:
-          "linear(to bottom, rgba(234, 129, 255, 1), rgba(106, 228, 255, 1))!important",
+        borderRadius: "14px",
+        bgColor: "rgba(238, 238, 240, 1)",
+        // padding:0,
+        // bgImage:
+        //   "linear(to bottom, rgba(234, 129, 255, 1), rgba(106, 228, 255, 1))!important",
       },
       body: {
         // scrollY: "none",

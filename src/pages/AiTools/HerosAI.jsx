@@ -14,7 +14,7 @@ function HerosAI({ apiRequest, formDataFields, title, description, advanced }) {
   //   }
   // }, [image]);
   useEffect(() => {
-    advanced ? setAdvanced(true) : setAdvanced(false);
+    advanced ? setAdvanced(advanced) : setAdvanced(false);
   }, [location, setAdvanced, advanced]);
   return !image ? (
     <Heros
@@ -33,14 +33,6 @@ function HerosAI({ apiRequest, formDataFields, title, description, advanced }) {
           // setOption={setOptions}
         />
       )}
-      {/* {option === "advanced" && (
-        <HandleImageAdvanced
-          // image={image[0]}
-          // setImage={setImage}
-          apiRequest={apiRequest}
-          // formDataFields={formDataFields}
-        />
-      )} */}
     </>
   );
 }

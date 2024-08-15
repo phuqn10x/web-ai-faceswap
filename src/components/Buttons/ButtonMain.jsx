@@ -12,6 +12,7 @@ function ButtonMain({
   fontSizeSub = "sm",
   fontWeight = "600",
   isDisabled,
+  hover = true,
 }) {
   return (
     <Box
@@ -22,8 +23,8 @@ function ButtonMain({
       // h={"auto"}
       // minW={"17.5rem"}
       _hover={{
-        ".gradient_box": { transform: "translateX(100%)" },
-        transform: "translateY(-10px)",
+        ".gradient_box": { transform: hover && "translateX(100%)" },
+        transform: hover && "translateY(-10px)",
       }}
       transition={"transform 0.6s ease"}
       borderRadius={"full"}
