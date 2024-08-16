@@ -1,9 +1,20 @@
+import aiApiRequest from "../../../apiRequest/ai";
 import Heros from "../../../components/Heros";
+import HerosAI from "../HerosAI";
 
 function Sketch() {
+  const { sketch } = aiApiRequest;
+
   return (
     <>
-      <Heros title="Sketch" />
+      <HerosAI
+        title={"AI Sketch"}
+        description={
+          "Effortlessly turn your photos into masterpieces with FaceSwap AI portrait generator, creating personalized, eye-catching portraits in just a few seconds."
+        }
+        apiRequest={sketch}
+       
+      />
     </>
   );
 }

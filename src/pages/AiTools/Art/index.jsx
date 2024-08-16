@@ -114,9 +114,17 @@ function ArtStyleComponent() {
       // console.log(formData.entries());
       try {
         const response = await art(formData);
-        setIdQueue(response.payload._id);
+        console.log("response", response);
+
+        if (!response.error) {
+          setIdQueue(response.payload._id);
+        } else {
+          throw response.error;
+        }
+      } catch (e) {
+        showToast(`Lỗi server AI do Ngọc Thắng đảm nhiệm`, "error", `${e}`);
       } finally {
-        // setLoading(false);
+        setLoading(false);
       }
 
       // console.log("formData", formData);
@@ -132,20 +140,24 @@ function ArtStyleComponent() {
         console.log("idQueue", idQueue);
 
         intervalIdRef.current = setInterval(async () => {
-          const response = await getProcessedQueue(idQueue);
-          console.log("getProcessedQueue", response);
-          const result = response.payload;
-          if (result) {
-            try {
+          try {
+            const response = await getProcessedQueue(idQueue);
+            console.log("getProcessedQueue", response);
+            const result = response.payload;
+            if (result) {
               if (result.message === "image not face") {
                 showToast(`Can't detech your face `, "error");
               } else {
                 setImageSelected(response.payload.result.url);
               }
-            } finally {
-              setLoading(false);
-              clearInterval(intervalIdRef.current);
             }
+          } catch (e) {
+            showToast(`Error when processing image`, "error");
+          } finally {
+            console.log("test");
+
+            setLoading(false);
+            clearInterval(intervalIdRef.current);
           }
         }, 2000);
       }

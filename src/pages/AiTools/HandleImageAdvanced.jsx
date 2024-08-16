@@ -41,10 +41,10 @@ import {
   FaTextHeight,
   FaTint,
 } from "react-icons/fa";
-import aiApiRequest from "../../apiRequest/ai";
-import ButtonMain from "../../components/Buttons/ButtonMain";
-import imageHandler from "../../apiRequest/imageHandler";
-import ScrollContainer from "cm-react-indiana-drag-scroll";
+// import aiApiRequest from "../../apiRequest/ai";
+// import ButtonMain from "../../components/Buttons/ButtonMain";
+// import imageHandler from "../../apiRequest/imageHandler";
+// import ScrollContainer from "cm-react-indiana-drag-scroll";
 import "cm-react-indiana-drag-scroll/dist/style.css";
 // import { ArtsStyleComponent } from "./Art";
 const CanvasImage = ({
@@ -317,15 +317,15 @@ export default function HandleImageAdvanced() {
   //   };
   //   getArtStyle();
   // }, []);
-  const [selectedStyle, setSelectedStyle] = useState();
+  // const [selectedStyle, setSelectedStyle] = useState();
   // const [idQueue, setIdQueue] = useState();
-  const handleSelectStyle = (styles) => {
-    console.log("Selected style:", styles);
-    setSelectedStyle(styles);
-    // Thực hiện các hành động khác như cập nhật state hoặc gọi API.
-  };
+  // const handleSelectStyle = (styles) => {
+  //   console.log("Selected style:", styles);
+  //   setSelectedStyle(styles);
+  //   // Thực hiện các hành động khác như cập nhật state hoặc gọi API.
+  // };
 
-  const intervalIdRef = useRef(null);
+  // const intervalIdRef = useRef(null);
   // const handleGenerate = async () => {
   //   setIdQueue(null);
   //   if (imageContext) {

@@ -6,13 +6,19 @@ const ToastContext = createContext();
 export const ToastProvider = ({ children }) => {
   const toast = chakraUseToast();
 
-  const showToast = (message, type = "success", position = "top-right") => {
+  const showToast = (
+    message,
+    type = "success",
+    description,
+    position = "bottom-right",
+  ) => {
     toast({
       title: message,
       status: type,
       duration: 2000,
       isClosable: true,
       position: position,
+      description: description,
     });
   };
 

@@ -4,14 +4,14 @@
 // import { useSelector } from "react-redux";
 // import { selectData } from "../redux/Reducer/auth";
 // import { useTranslation as originalUseTranslation } from "react-i18next";
-// 
+//
 // export const decodeJWT = (token) => {
 //   return jwtDecode(token);
 // };
 // export function cn(...inputs) {
 //   return twMerge(clsx(inputs));
 // }
-
+import CryptoJS from "crypto-js";
 export const normalizePath = (path) => {
   return path.startsWith("/") ? path.slice(1) : path;
 };
@@ -30,8 +30,8 @@ export const normalizePath = (path) => {
 //   const t = (key, ...args) => {
 //     // lấy key và các args
 //     for (let namespace of namespaces) {
-      
-//       // lặp qua các namespaces để xem key cần dịch có nằm trong namespace nào không ? 
+
+//       // lặp qua các namespaces để xem key cần dịch có nằm trong namespace nào không ?
 //       const translation = originalT(`${namespace}.${key}`, ...args);
 //       // dịch key trong namespace cùng với các args
 //       if (translation !== `${namespace}.${key}`) {
@@ -68,4 +68,30 @@ export const handleErrorApi = ({ error, setError }) => {
   //     duration: duration ?? 5000,
   //   });
   // }
+};
+export const encrypt = (data) => {
+  const key = CryptoJS.enc.Hex.parse(env.CRYPTO_RESPONSE_KEY); // 128-bit key
+  const iv = CryptoJS.enc.Hex.parse(env.CRYPTO_RESPONSE_IV); // 128-bit IV
+  const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), key, {
+    iv: iv,
+  }).toString();
+  return ciphertext;
+};
+
+export const decrypt = (ciphertext) => {
+  try {
+    const key = CryptoJS.enc.Hex.parse(env.CRYPTO_REQUEST_KEY); // 128-bit key
+    const iv = CryptoJS.enc.Hex.parse(env.CRYPTO_REQUEST_IV); // 128-bit IV
+    const bytes = CryptoJS.AES.decrypt(ciphertext, key, { iv: iv });
+    const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+    return data;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const encryptMd5 = (fileBuffer) => {
+  const wordArray = CryptoJS.lib.WordArray.create(fileBuffer);
+  const hash = CryptoJS.MD5(wordArray).toString();
+  return hash;
 };

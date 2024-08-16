@@ -47,6 +47,22 @@ const aiApiRequest = {
     await http.post(`/tools/predict-age`, formData, {
       baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
     }),
+  changeSky: async (formData) =>
+    await http.post(`/tools/change-sky`, formData, {
+      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+    }),
+  changeSkyStyle: async () =>
+    await http.get(`/tools/change-sky`, {
+      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+    }),
+  enhance: async (formData) =>
+    await http.post(`/tools/enhance-image`, formData, {
+      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+    }),
+  textRemove: async (formData) =>
+    await http.post(`/tools/text-remover`, formData, {
+      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+    }),
 };
 
 export default aiApiRequest;
