@@ -1,7 +1,7 @@
 import http from "../lib/http";
 // const formData = new FormData();
 
-/*global process*/
+
 // const baseUrl = import.meta.env.VITE_API_ENDPOINT_AI;
 const aiApiRequest = {
   // enhancer: async (formData) =>
@@ -31,8 +31,8 @@ const aiApiRequest = {
   //   await http.post(`v1/tools/predict_sketch_be`, formData, {
   //     baseUrl: baseUrl,
   //   }),
-  art: async (formData) =>
-    await http.post(`/tools/predict-art`, formData, {
+  art: async (data) =>
+    await http.post(`/tools/predict-art`, data, {
       baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
     }),
   artStyle: async () =>

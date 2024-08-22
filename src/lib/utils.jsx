@@ -70,8 +70,8 @@ export const handleErrorApi = ({ error, setError }) => {
   // }
 };
 export const encrypt = (data) => {
-  const key = CryptoJS.enc.Hex.parse(env.CRYPTO_RESPONSE_KEY); // 128-bit key
-  const iv = CryptoJS.enc.Hex.parse(env.CRYPTO_RESPONSE_IV); // 128-bit IV
+  const key = CryptoJS.enc.Hex.parse(import.meta.env.VITE_CRYPTO_RESPONSE_KEY); // 128-bit key
+  const iv = CryptoJS.enc.Hex.parse(import.meta.env.VITE_CRYPTO_RESPONSE_IV); // 128-bit IV
   const ciphertext = CryptoJS.AES.encrypt(JSON.stringify(data), key, {
     iv: iv,
   }).toString();
@@ -80,8 +80,8 @@ export const encrypt = (data) => {
 
 export const decrypt = (ciphertext) => {
   try {
-    const key = CryptoJS.enc.Hex.parse(env.CRYPTO_REQUEST_KEY); // 128-bit key
-    const iv = CryptoJS.enc.Hex.parse(env.CRYPTO_REQUEST_IV); // 128-bit IV
+    const key = CryptoJS.enc.Hex.parse(import.meta.env.VITE_CRYPTO_REQUEST_KEY); // 128-bit key
+    const iv = CryptoJS.enc.Hex.parse(import.meta.env.VITE_CRYPTO_REQUEST_IV); // 128-bit IV
     const bytes = CryptoJS.AES.decrypt(ciphertext, key, { iv: iv });
     const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
     return data;
@@ -91,7 +91,42 @@ export const decrypt = (ciphertext) => {
 };
 
 export const encryptMd5 = (fileBuffer) => {
+  console.log("fileBuffer", fileBuffer);
+
   const wordArray = CryptoJS.lib.WordArray.create(fileBuffer);
   const hash = CryptoJS.MD5(wordArray).toString();
   return hash;
+};
+
+export async function calculateImageMd5(file) {
+  const reader = new FileReader();
+
+  return new Promise((resolve, reject) => {
+    reader.onload = (event) => {
+      const arrayBuffer = event.target.result;
+      const hash = encryptMd5(arrayBuffer);
+      resolve(hash);
+    };
+
+    reader.onerror = reject;
+
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+export const encryptController = (md5, data) => {
+  const dataSrc = {
+    data: { ...data },
+    md5: md5,
+    device_id: "web",
+    package_name: import.meta.env.VITE_PACKAGE_NAME,
+    signature: import.meta.env.VITE_SIGNATURE,
+  };
+
+  try {
+    const dataEncrypt = encrypt(dataSrc);
+    return dataEncrypt;
+  } catch (e) {
+    console.log(e);
+  }
 };

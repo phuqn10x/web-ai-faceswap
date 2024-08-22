@@ -111,21 +111,31 @@ function ArtStyleComponent() {
         console.log(key, value);
       });
       // }
+      const data = {
+        image_original: image[0],
+        style: selectedStyle,
+        seed_take: "-1",
+        face_strength: "-1",
+        appid: "1",
+        country: "1",
+        device_id: "1",
+        tier: "0",
+      }
       // console.log(formData.entries());
-      try {
-        const response = await art(formData);
+      // try {
+        const response = await art(data);
         console.log("response", response);
 
-        if (!response.error) {
-          setIdQueue(response.payload._id);
-        } else {
-          throw response.error;
-        }
-      } catch (e) {
-        showToast(`Lỗi server AI do Ngọc Thắng đảm nhiệm`, "error", `${e}`);
-      } finally {
-        setLoading(false);
-      }
+      //   if (!response.error) {
+      //     setIdQueue(response.payload._id);
+      //   } else {
+      //     throw response.error;
+      //   }
+      // } catch (e) {
+      //   showToast(`Lỗi server AI do Ngọc Thắng đảm nhiệm`, "error", `${e}`);
+      // } finally {
+      //   setLoading(false);
+      // }
 
       // console.log("formData", formData);
     }

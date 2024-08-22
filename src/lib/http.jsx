@@ -1,5 +1,11 @@
 import axios from "axios";
-import { normalizePath } from "../lib/utils";
+import {
+  calculateImageMd5,
+  decrypt,
+  encryptController,
+  encryptMd5,
+  normalizePath,
+} from "./utils";
 import userApiRequest from "../apiRequest/user";
 // import { useDispatch } from "react-redux";
 // import store from "../redux/store/store";
@@ -22,7 +28,7 @@ const request = async (method, url, options) => {
 
   const baseHeaders =
     body instanceof FormData
-      ? {}
+      ? { "Content-Type": "multipart/form-data" }
       : {
           "Content-Type": "application/json",
         };
@@ -38,18 +44,42 @@ const request = async (method, url, options) => {
   //   import.meta.env.VITE_API_ENDPOINT_USER
   // );
   const baseUrl = options?.baseUrl ?? import.meta.env.VITE_API_ENDPOINT_USER;
-  
+
   options?.baseUrl === import.meta.env.VITE_API_ENDPOINT_AI &&
     (baseHeaders["Content-Type"] = "multipart/form-data");
   console.log("options", options);
   console.log("url", url);
+  if (
+    options?.baseUrl === import.meta.env.VITE_API_ENDPOINT_AI &&
+    options?.body
+  ) {
+    let { image_original, ...rest } = options.body;
+    let image_md5 = image_original;
+    image_md5 = await calculateImageMd5(image_md5);
+    const dataEncrypt = encryptController(image_md5, rest);
+    // console.log("data chưa mã hóa là", image_original, rest);
 
+    // const data = {
+    //   image_original: image_original,
+    //   data: dataEncrypt,
+    // };
+    const formData = new FormData();
+    formData.append("image_original", image_original);
+    formData.append("data", dataEncrypt);
+    // console.log(data);
+    // options.body = data;
+    body = formData;
+  }
   const fullUrl = url.startsWith("/")
     ? `${baseUrl}${url}`
     : `${baseUrl}/${url}`;
   console.log(fullUrl);
 
   console.log("param", options?.params);
+  if (options?.baseUrl === import.meta.env.VITE_API_ENDPOINT_AI) {
+    console.log("body", options?.body);
+    console.log("test");
+  }
   try {
     const data = {
       method,
@@ -61,7 +91,7 @@ const request = async (method, url, options) => {
         ...options?.headers,
       },
       params: options?.params,
-      
+
       data: body,
     };
     console.log("data", data);
@@ -73,7 +103,15 @@ const request = async (method, url, options) => {
     });
 
     // handleResponse(url, payload);
-
+    if (
+      options?.baseUrl === import.meta.env.VITE_API_ENDPOINT_AI &&
+      options?.body
+    ) {
+      console.log(payload);
+      
+      const dataDecript = decrypt(payload);
+      console.log("dataDecript", dataDecript);
+    }
     return {
       status: res.status,
       payload,
