@@ -1,5 +1,4 @@
 import aiApiRequest from "../../../apiRequest/ai";
-import Heros from "../../../components/Heros";
 import HerosAI from "../HerosAI";
 
 function Enhander() {

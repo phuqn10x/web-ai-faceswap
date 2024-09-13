@@ -1,12 +1,6 @@
 import {
   Flex,
-
-  // useColorMode,
-  // VStack,
   useColorModeValue,
-  // IconButton,
-
-  // Image,
   Stack,
   Box,
   Icon,
@@ -20,18 +14,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
-// import { HamburgerIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
-
-// import { useSelector, useDispatch } from "react-redux";
-// import { Logout, selectData } from "../redux/Reducer/auth"; // Cập nhật đường dẫn đúng đến file userSlice của bạn
-// import { useTranslation } from "react-i18next";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
-// import { locales } from "../i18n";
-// import { useT } from "../lib/utils";
-// import { changeLanguage } from "i18next";
-
 import PopOverMain from "../components/ui/Popover";
-
 import downloadIcon from "../assets/icons/download.svg";
 import ButtonMain from "../components/Buttons/ButtonMain";
 import { ai_items } from "../data";

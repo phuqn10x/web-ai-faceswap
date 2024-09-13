@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import ButtonUploadImage from "../../components/Buttons/ButtonUploadImage";
 import Heros from "../../components/Heros";
 import { useImage } from "../../Context/ImageContext";
-import HandleImageAdvanced from "./HandleImageAdvanced";
+// import HandleImageAdvanced from "./HandleImageAdvanced";
 import HandleImageBasic from "./HandleImageBasic";
 
 function HerosAI({ apiRequest, formDataFields, title, description, advanced }) {

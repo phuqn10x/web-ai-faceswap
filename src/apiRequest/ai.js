@@ -2,7 +2,7 @@ import http from "../lib/http";
 // const formData = new FormData();
 
 
-// const baseUrl = import.meta.env.VITE_API_ENDPOINT_AI;
+const ENDPOINT_AI = import.meta.env.VITE_API_ENDPOINT_AI;
 const aiApiRequest = {
   // enhancer: async (formData) =>
   //   await http.post(`v1/tools/enhance_image`, formData, {
@@ -33,35 +33,35 @@ const aiApiRequest = {
   //   }),
   art: async (data) =>
     await http.post(`/tools/predict-art`, data, {
-      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+      baseUrl: ENDPOINT_AI,
     }),
   artStyle: async () =>
     await http.get(`/tools/predict-art`, {
-      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+      baseUrl: ENDPOINT_AI,
     }),
   sketch: async (formData) =>
     await http.post(`/tools/predict-sketch`, formData, {
-      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+      baseUrl: ENDPOINT_AI,
     }),
   age: async (formData) =>
     await http.post(`/tools/predict-age`, formData, {
-      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+      baseUrl: ENDPOINT_AI,
     }),
   changeSky: async (formData) =>
     await http.post(`/tools/change-sky`, formData, {
-      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+      baseUrl: ENDPOINT_AI,
     }),
   changeSkyStyle: async () =>
     await http.get(`/tools/change-sky`, {
-      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+      baseUrl: ENDPOINT_AI,
     }),
   enhance: async (formData) =>
     await http.post(`/tools/enhance-image`, formData, {
-      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+      baseUrl: ENDPOINT_AI,
     }),
   textRemove: async (formData) =>
     await http.post(`/tools/text-remover`, formData, {
-      baseUrl: import.meta.env.VITE_API_ENDPOINT_AI,
+      baseUrl: ENDPOINT_AI,
     }),
 };
 

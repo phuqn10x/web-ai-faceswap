@@ -9,19 +9,18 @@ export function ImageProvider({ children }) {
   const [imageSelected, setImageSelected] = useState([]);
   const [advanced, setAdvanced] = useState(false);
   const [loading, setLoading] = useState(false);
-  // const [advanced, setAdvanced] = useState(false);
-  // const [advanced, setAdvanced] = useState(false);
   //  const { setImage } = useImage();
   const location = useLocation();
   // const previousLocationRef = useRef(location.pathname);
 
   useEffect(() => {
+    // set image bằng null khi chuyển trang để tránh việc hiển thị ảnh cũ
     // if (previousLocationRef.current === location.pathname) {
     //   setImage(null);
     // }
-    // previousLocationRef.current = location.pathname; // Cập nhật giá trị trước đó
+    // previousLocationRef.current = location.pathname; 
 
-    // Thiết lập setImage(null) khi đường dẫn thay đổi
+   
     // console.log("test");
     setImage(null);
   }, [location]);

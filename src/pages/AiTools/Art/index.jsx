@@ -42,10 +42,10 @@ function Art() {
 function ArtStyleComponent() {
   const { artStyle, art } = aiApiRequest;
   const { getProcessedQueue } = imageHandler;
-  const { image, setImage, ImageSelected, setImageSelected, setLoading } =
+  const { image, setImageSelected, setLoading } =
     useImage();
   const [selectedStyle, setSelectedStyle] = useState();
-  const [process, setProcess] = useState(false);
+  // const [process, setProcess] = useState(false);
   const [styles, setStyles] = useState();
   const { showToast } = useToast();
   // const [selected, setSelected] = useState("Images");
@@ -132,7 +132,7 @@ function ArtStyleComponent() {
       //     throw response.error;
       //   }
       // } catch (e) {
-      //   showToast(`Lỗi server AI do Ngọc Thắng đảm nhiệm`, "error", `${e}`);
+      //   showToast(`Lỗi server `, "error", `${e}`);
       // } finally {
       //   setLoading(false);
       // }

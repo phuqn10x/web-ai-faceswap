@@ -1,52 +1,23 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Stage,
   Layer,
   Transformer,
   Rect,
-  Group,
   Image as KonvaImage,
 } from "react-konva";
 import useImage from "use-image";
 import { useImage as useImages } from "../../Context/ImageContext";
 import {
-  border,
   Box,
-  Button,
   Container,
   Flex,
-  Grid,
-  HStack,
-  Icon,
-  IconButton,
   Stack,
   Text,
-  VStack,
-  Tab,
-  TabIndicator,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Image as ChakraImage,
+  // Image as ChakraImage,
   Spinner,
-  Skeleton,
-  SkeletonText,
-  SimpleGrid,
 } from "@chakra-ui/react";
-import {
-  FaArrowsAlt,
-  FaFillDrip,
-  FaImage,
-  FaTextHeight,
-  FaTint,
-} from "react-icons/fa";
-// import aiApiRequest from "../../apiRequest/ai";
-// import ButtonMain from "../../components/Buttons/ButtonMain";
-// import imageHandler from "../../apiRequest/imageHandler";
-// import ScrollContainer from "cm-react-indiana-drag-scroll";
 import "cm-react-indiana-drag-scroll/dist/style.css";
-// import { ArtsStyleComponent } from "./Art";
 const CanvasImage = ({
   src,
   onSelect,
@@ -117,53 +88,53 @@ const CanvasImage = ({
     </>
   );
 };
-const boardArea = (width, height) => {
-  console.log("Create Checkerboard");
-  const size = 20;
-  const cols = Math.ceil(width / size);
-  const rows = Math.ceil(height / size);
-  const squares = [];
+// const boardArea = (width, height) => {
+//   console.log("Create Checkerboard");
+//   const size = 20;
+//   const cols = Math.ceil(width / size);
+//   const rows = Math.ceil(height / size);
+//   const squares = [];
 
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      squares.push(
-        <Rect
-          key={`${i}-${j}`}
-          x={j * size}
-          y={i * size}
-          width={size}
-          height={size}
-          fill={(i + j) % 2 === 0 ? "#ffffff" : "#cccccc"}
-        />
-      );
-    }
-  }
-  return squares;
-};
-const SidebarButton = ({ icon, label, isSelected, onClick }) => {
-  return (
-    <VStack spacing={1} align="center" onClick={onClick}>
-      <Box
-        p={2}
-        borderRadius="full"
-        bg={isSelected ? "blue.50" : "transparent"}
-        color={isSelected ? "blue.500" : "gray.500"}
-      >
-        <IconButton
-          icon={icon}
-          aria-label={label}
-          variant="ghost"
-          colorScheme={isSelected ? "blue" : "gray"}
-          isRound
-          size="lg"
-        />
-      </Box>
-      <Text color={isSelected ? "blue.500" : "gray.500"} fontSize="16px">
-        {label}
-      </Text>
-    </VStack>
-  );
-};
+//   for (let i = 0; i < rows; i++) {
+//     for (let j = 0; j < cols; j++) {
+//       squares.push(
+//         <Rect
+//           key={`${i}-${j}`}
+//           x={j * size}
+//           y={i * size}
+//           width={size}
+//           height={size}
+//           fill={(i + j) % 2 === 0 ? "#ffffff" : "#cccccc"}
+//         />
+//       );
+//     }
+//   }
+//   return squares;
+// };
+// const SidebarButton = ({ icon, label, isSelected, onClick }) => {
+//   return (
+//     <VStack spacing={1} align="center" onClick={onClick}>
+//       <Box
+//         p={2}
+//         borderRadius="full"
+//         bg={isSelected ? "blue.50" : "transparent"}
+//         color={isSelected ? "blue.500" : "gray.500"}
+//       >
+//         <IconButton
+//           icon={icon}
+//           aria-label={label}
+//           variant="ghost"
+//           colorScheme={isSelected ? "blue" : "gray"}
+//           isRound
+//           size="lg"
+//         />
+//       </Box>
+//       <Text color={isSelected ? "blue.500" : "gray.500"} fontSize="16px">
+//         {label}
+//       </Text>
+//     </VStack>
+//   );
+// };
 export default function HandleImageAdvanced() {
   const canvasWidth = 1300;
   const canvasHeight = 810;
@@ -181,29 +152,29 @@ export default function HandleImageAdvanced() {
   const [colorRect, setColorRect] = useState("transparent");
   const [selectedE, setSelectE] = useState(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
-  const handleWheel = (e) => {
-    // console.log("Wheel", e);
-    e.evt.preventDefault();
-    const stage = stageRef.current;
-    const oldScale = stage.scaleX();
-    const pointer = stage.getPointerPosition();
+  // const handleWheel = (e) => {
+  //   // console.log("Wheel", e);
+  //   e.evt.preventDefault();
+  //   const stage = stageRef.current;
+  //   const oldScale = stage.scaleX();
+  //   const pointer = stage.getPointerPosition();
 
-    const scaleBy = 1.05;
-    const newScale = e.evt.deltaY > 0 ? oldScale / scaleBy : oldScale * scaleBy;
+  //   const scaleBy = 1.05;
+  //   const newScale = e.evt.deltaY > 0 ? oldScale / scaleBy : oldScale * scaleBy;
 
-    stage.scale({ x: newScale, y: newScale });
+  //   stage.scale({ x: newScale, y: newScale });
 
-    const mousePointTo = {
-      x: (pointer.x - stage.x()) / oldScale,
-      y: (pointer.y - stage.y()) / oldScale,
-    };
-    const newPos = {
-      x: pointer.x - mousePointTo.x * newScale,
-      y: pointer.y - mousePointTo.y * newScale,
-    };
-    stage.position(newPos);
-    stage.batchDraw();
-  };
+  //   const mousePointTo = {
+  //     x: (pointer.x - stage.x()) / oldScale,
+  //     y: (pointer.y - stage.y()) / oldScale,
+  //   };
+  //   const newPos = {
+  //     x: pointer.x - mousePointTo.x * newScale,
+  //     y: pointer.y - mousePointTo.y * newScale,
+  //   };
+  //   stage.position(newPos);
+  //   stage.batchDraw();
+  // };
 
   const handleMouseDownAndTouchStart = (e) => {
     console.log("Touch stage", e);
@@ -461,25 +432,25 @@ export default function HandleImageAdvanced() {
                   y={pos.y}
                   // scale={{ x: 0, y: 0 }}
                 >
-                  {/* get multiple image ! */}
+                  {/* up nhiều ảnh ! */}
                   {/* <Group>{board}</Group> */}
                   {/* {imageSelected.map((src, index) => (
-            <CanvasImage
-              key={index}
-              customKey={index}
-              src={src}
-              onSelect={() => {
-                setSelectE(index);
-              }}
-              isSelected={selectedE === index}
+                    <CanvasImage
+                      key={index}
+                      customKey={index}
+                      src={src}
+                      onSelect={() => {
+                        setSelectE(index);
+                      }}
+                      isSelected={selectedE === index}
 
-              // shapeRef={(el) => (shapeRefs.current[index] = el)}
-              // isSelected={selectedImage === index}
-              // onSelect={() => onSelect(shapeRefs.current[index])}
-              // onTransform={(newAttrs) => onTransform(index, newAttrs)}
-            />
-          ))} */}
-                  {/* get once a time image ! */}
+                      // shapeRef={(el) => (shapeRefs.current[index] = el)}
+                      // isSelected={selectedImage === index}
+                      // onSelect={() => onSelect(shapeRefs.current[index])}
+                      // onTransform={(newAttrs) => onTransform(index, newAttrs)}
+                    />
+                  ))} */}
+                  {/* up 1 ảnh ! */}
                   {advanced.editImage ? (
                     <CanvasImage
                       // isSelected={selectedE}

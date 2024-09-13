@@ -1,5 +1,5 @@
 import section1Rt from "../assets/images/remove_text_section1_homepage.png";
-import section1Rb from "../assets/images/remove_background_section1_homepage.png";
+// import section1Rb from "../assets/images/remove_background_section1_homepage.png";
 import section1Ca from "../assets/images/change_age_section1_homepage.png";
 import section1Cs from "../assets/images/change_sky_section1_homepage.png";
 import section1Ap from "../assets/images/art_portrait_section1_homepage.png";

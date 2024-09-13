@@ -20,7 +20,7 @@ export const normalizePath = (path) => {
 //   const user = useSelector(selectData);
 //   return user;
 // };
-
+// dịch nhiều namespaces
 // Nhận tất cả namespaces cần dịch và trả về hàm t useT.t
 // có thể Destructuring t từ useT như này { t } = useT("namespace1", "namespace2");
 // export const useT = (...namespaces) => {
@@ -51,15 +51,15 @@ export const normalizePath = (path) => {
 //   return { t };
 // };
 
-export const handleErrorApi = ({ error, setError }) => {
-  if (error) {
-    error.payload.errors.forEach((item) => {
-      setError(item.field, {
-        type: "server",
-        message: item.message,
-      });
-    });
-  }
+// export const handleErrorApi = ({ error, setError }) => {
+  // if (error) {
+  //   error.payload.errors.forEach((item) => {
+  //     setError(item.field, {
+  //       type: "server",
+  //       message: item.message,
+  //     });
+  //   });
+  // }
   // else {
   //   toast({
   //     title: "Lỗi",
@@ -68,7 +68,8 @@ export const handleErrorApi = ({ error, setError }) => {
   //     duration: duration ?? 5000,
   //   });
   // }
-};
+// };
+
 export const encrypt = (data) => {
   const key = CryptoJS.enc.Hex.parse(import.meta.env.VITE_CRYPTO_RESPONSE_KEY); // 128-bit key
   const iv = CryptoJS.enc.Hex.parse(import.meta.env.VITE_CRYPTO_RESPONSE_IV); // 128-bit IV
@@ -98,7 +99,7 @@ export const encryptMd5 = (fileBuffer) => {
   return hash;
 };
 
-export async function calculateImageMd5(file) {
+export const encriptImageMd5 = async (file) => {
   const reader = new FileReader();
 
   return new Promise((resolve, reject) => {
@@ -112,9 +113,9 @@ export async function calculateImageMd5(file) {
 
     reader.readAsArrayBuffer(file);
   });
-}
+};
 
-export const encryptController = (md5, data) => {
+export const encryptDataAi = (md5, data) => {
   const dataSrc = {
     data: { ...data },
     md5: md5,

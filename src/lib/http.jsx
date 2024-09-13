@@ -1,23 +1,13 @@
 import axios from "axios";
-import {
-  calculateImageMd5,
-  decrypt,
-  encryptController,
-  encryptMd5,
-  normalizePath,
-} from "./utils";
+import { encriptImageMd5, decrypt, encryptDataAi } from "./utils";
 import userApiRequest from "../apiRequest/user";
-// import { useDispatch } from "react-redux";
-// import store from "../redux/store/store";
-// import { Logout, logout } from "../redux/Reducer/auth";
-// import store from "../redux/store/store";
 
 const ENTITY_ERROR_STATUS = 422;
 const AUTHENTICATION_ERROR_STATUS = 401;
-
+const ENDPOINT_AI = import.meta.env.VITE_API_ENDPOINT_AI;
 // let LogoutRequest = null;
 // export const isClient = () => typeof window !== "undefined";
-/*global process*/
+
 const request = async (method, url, options) => {
   let body = undefined;
   if (options?.body instanceof FormData) {
@@ -45,18 +35,15 @@ const request = async (method, url, options) => {
   // );
   const baseUrl = options?.baseUrl ?? import.meta.env.VITE_API_ENDPOINT_USER;
 
-  options?.baseUrl === import.meta.env.VITE_API_ENDPOINT_AI &&
+  options?.baseUrl === ENDPOINT_AI &&
     (baseHeaders["Content-Type"] = "multipart/form-data");
   console.log("options", options);
   console.log("url", url);
-  if (
-    options?.baseUrl === import.meta.env.VITE_API_ENDPOINT_AI &&
-    options?.body
-  ) {
-    let { image_original, ...rest } = options.body;
+  if (options?.baseUrl === ENDPOINT_AI && options?.body) {
+    const { image_original, ...rest } = options.body;
     let image_md5 = image_original;
-    image_md5 = await calculateImageMd5(image_md5);
-    const dataEncrypt = encryptController(image_md5, rest);
+    image_md5 = await encriptImageMd5(image_md5);
+    const dataEncrypt = encryptDataAi(image_md5, rest);
     // console.log("data chưa mã hóa là", image_original, rest);
 
     // const data = {
@@ -76,7 +63,7 @@ const request = async (method, url, options) => {
   console.log(fullUrl);
 
   console.log("param", options?.params);
-  if (options?.baseUrl === import.meta.env.VITE_API_ENDPOINT_AI) {
+  if (options?.baseUrl === ENDPOINT_AI) {
     console.log("body", options?.body);
     console.log("test");
   }
@@ -103,12 +90,8 @@ const request = async (method, url, options) => {
     });
 
     // handleResponse(url, payload);
-    if (
-      options?.baseUrl === import.meta.env.VITE_API_ENDPOINT_AI &&
-      options?.body
-    ) {
+    if (options?.baseUrl === ENDPOINT_AI && options?.body) {
       console.log(payload);
-      
       const dataDecript = decrypt(payload);
       console.log("dataDecript", dataDecript);
     }
@@ -152,7 +135,10 @@ const request = async (method, url, options) => {
     return data;
   }
 };
-const handleAuthenticationError = async (baseHeaders, endpoint) => {
+const handleAuthenticationError = async (
+  baseHeaders
+  // , endpoint
+) => {
   console.log("baseHeaders", baseHeaders.length);
   const { GetToken } = userApiRequest;
 

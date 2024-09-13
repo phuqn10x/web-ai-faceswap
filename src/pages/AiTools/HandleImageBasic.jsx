@@ -9,20 +9,14 @@ import {
   HStack,
   Text,
   Stack,
-  Modal,
-  useDisclosure,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
+  // useDisclosure,
 } from "@chakra-ui/react";
 
 import { CloseIcon } from "@chakra-ui/icons";
 import ButtonMain from "../../components/Buttons/ButtonMain";
 // import ButtonVertical from "../../components/ui/Buttons/ButtonVertical";
 import { useToast } from "../../Context/ToastContext";
-import { useImage } from "../../Context/ImageContext";
+// import { useImage } from "../../Context/ImageContext";
 import { scroller } from "react-scroll";
 import ButtonUploadImage from "../../components/Buttons/ButtonUploadImage";
 // import aiApiRequest from "../../apiRequest/ai";
@@ -94,17 +88,16 @@ function CustomSwitch({ isChecked, onChange, disabled }) {
 
 export default function HandleImageBasic({
   image,
-  // setProcess,
-  // process,
-  apiRequest,
-  formDataFields,
+ 
+  // apiRequest,
+
   setImage,
-  // setOption,
+
 }) {
   const [result, setResult] = useState(null);
   const [view, setView] = useState("after");
   const [error, setError] = useState();
-  const { setAdvanced } = useImage();
+  // const { setAdvanced } = useImage();
   const [process, setProcess] = useState(false);
   const host = "http://192.168.5.133:8122";
   const [loading, setLoading] = useState(false);
@@ -139,7 +132,7 @@ export default function HandleImageBasic({
       if (!process) {
         setProcess(true);
         setResult(null);
-        const formData = new FormData();
+        // const formData = new FormData();
         console.log("image", image);
 
         // formData.append("image_original", image);
@@ -161,7 +154,7 @@ export default function HandleImageBasic({
         //   console.log(`${key}: ${value}`);
         // }
         try {
-          const response = await apiRequest(formData);
+          // const response = await apiRequest(formData);
           // console.log(response);
           // if (!response.error) {
           //   console.log("response", response);
@@ -224,11 +217,11 @@ export default function HandleImageBasic({
       }
     }
   };
-  const handleProOption = () => {
-    setAdvanced("advanced");
-    setImage(result);
-  };
-  const { onOpen } = useDisclosure();
+  // const handleProOption = () => {
+  //   setAdvanced("advanced");
+  //   setImage(result);
+  // };
+  // const { onOpen } = useDisclosure();
   return (
     // <Container maxW="full" p={0}>
     <Container maxW={"xl"} className="scroll-to-element">
